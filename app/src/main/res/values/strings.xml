@@ -1,0 +1,125 @@
+<resources>
+    <string name="app_name">FurnitureProject</string>
+    <string name="title_bill">账单</string>
+    <string name="title_chart">图表</string>
+    <string name="title_add">记账</string>
+    <string name="title_card">卡包</string>
+    <string name="title_me">我的</string>
+
+    <string name="expend">支出</string>
+    <string name="income">收入</string>
+
+    <string name="all">全部</string>
+
+    <string name="type">类别</string>
+    <string name="goods">商品名称</string>
+    <string name="inputGoodsName">输入商品名称</string>
+    <string name="count">售出数量</string>
+    <string name="time">时间</string>
+    <string name="note">备注</string>
+    <string name="sellPrice">单价</string>
+    <string name="primeCost">成本</string>
+
+    <!--添加其他支出-->
+    <string name="payout_title">支出名称</string>
+
+
+    <string name="delete">删除</string>
+    <string name="budget_open">开启消费预算</string>
+    <string name="budget_close">关闭消费预算</string>
+    <string name="budget_account">消费预算金额</string>
+    <string name="budget_describe">开启预算，首页呈现预算余额模式 (预算余额 = 预算金额 - 当月支出)</string>
+    <string name="hint_not_setting">未设置</string>
+    <string name="hint_edit_money">¥ 0.00</string>
+    <string name="hint_edit_count">0</string>
+    <string name="hint_add_remark">备注：说点什么吧</string>
+    <string name="hint_input_classify">请输入分类名称</string>
+
+    <string name="chart_account_total">累计记账</string>
+    <string name="chart_account_max">单笔最大金额</string>
+    <string name="current_balance">当前余额(元)</string>
+    <string name="balance_tixian">提现至微信</string>
+    <string name="card_detail_deposit">温馨提示：\n
+    · 每个账户只能绑定一张储蓄卡\n
+    · 绑定后该卡只能最为到账银行卡\n
+    · 如需换卡，只能更换该持卡人名下的储蓄卡\n
+    · 如有疑问，请致电客服热线：</string>
+    <string name="card_detail_credit_info">信用卡信息</string>
+    <string name="card_detail_credit_repay">还款日期</string>
+    <string name="card_detail_credit_outaccount">出账日期</string>
+    <string name="card_detail_credit_total_limit">总 额 度</string>
+    <string name="hint_input_credit_limit">请输入信用卡额度</string>
+    <string name="remind_open">开启提醒</string>
+    <string name="remind_period">提醒周期</string>
+    <string name="vibrate">震动</string>
+    <string name="sound">声音</string>
+    <string name="remind_account">记账提醒</string>
+    <string name="remind_credit">信用卡提醒</string>
+    <string name="remind_timer">提醒时间</string>
+    <string name="remind_content">提醒内容</string>
+    <string name="hint_remind_content">朋友圈是秀给别人看的，账单才是给自己看的，今天别忘了记账呦~</string>
+    <string name="hint_input_contract_time">请输入契约时长</string>
+    <string name="hint_input_contract_count">请输入您要支付的契约金(不少于1元)</string>
+    <string name="finish">完成</string>
+    <string name="rv_empty_no_bill">无账单记录</string>
+    <string name="text_bill_empty">您的账单之旅还没开始\n暂无数据~</string>
+
+    <string name="toolbar_sort">排序</string>
+    <string name="sort_long_click">长按排序或删除</string>
+    <!--白色文字-->
+    <color name="colorTextWhite">#fff</color>
+    <!--账单总览深色文字-->
+    <color name="colorTextBillAllDark">#918f9c</color>
+    <!--黑色文字-->
+    <color name="colorTextBlack">#3f2c51</color>
+    <!--黑色浅色文字-->
+    <color name="colorTextBlackLight">#7e7d86</color>
+
+    <!--顶部悬浮背景-->
+    <color name="colorBgSticky">#fbf9ff</color>
+    <!--顶部悬浮文字-->
+    <color name="colorTextSticky">#6c6980</color>
+    <!--左滑删除红色背景-->
+    <color name="colorBgSwipeDelete">#ff5363</color>
+
+    <!--Lin或者Rel条目文字背景-->
+    <color name="colorTextLinItem">#3f3f51</color>
+    <!--分割线背景-->
+    <color name="colorViewBg">#f3f0ff</color>
+
+    <color name="colorDividerAddRemark">#d5d4de</color>
+
+    <!--红色文字-->
+    <color name="colorTextRed">#ff5363</color>
+
+    <!--viewpager文字灰色-->
+    <color name="colorTextPagerGray">#949494</color>
+    <!--自定义键盘分割线颜色-->
+    <color name="colorKeyboardDivider">#312f3f</color>
+    <color name="colorKeyboardPress">#504c66</color>
+
+    <color name="colorTextAddRemark">#b7b5c3</color>
+    <color name="colorTextHint">#b7b5c3</color>
+
+    <color name="colorRemarkDialogBgPress">#d9d7d7</color>
+
+    <color name="colorRemarkDialogBgNormal">#f1f1f1</color>
+
+
+    <color name="indicator_bg">#cdcdcd</color>
+
+
+    <color name="white40">#40ffffff</color>
+
+    <color name="color_dash">#cecece</color>
+
+    <color name="colorGreen">#24c789</color>
+    <color name="itemBackground">#dde9e9e9</color>
+    <color name="colorTextCardAddEdittext">#837f8c</color>
+
+    <color name="colorTextChartTabSelect">#a9a6b8</color>
+    <color name="colorTextChartTabNormal">#4f4d5e</color>
+    <color name="colorTextChartDescribe">#c9c7d3</color>
+    <color name="colorGreenChart">#11a06a</color>
+    <color name="colorTextContract">#e1dfed</color>
+</resources>

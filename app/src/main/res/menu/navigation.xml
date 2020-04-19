@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_bill"
+        android:icon="@drawable/tab_bill_selector"
+        android:title="@string/title_bill" />
+
+    <item
+        android:id="@+id/navigation_chart"
+        android:icon="@drawable/tab_chart_selector"
+        android:title="@string/title_chart" />
+
+    <item
+        android:id="@+id/navigation_add"
+        android:icon="@drawable/tab_add_selector"
+        android:title="@string/title_add" />
+
+    <item
+        android:id="@+id/navigation_card"
+        android:icon="@drawable/tab_card_selector"
+        android:title="@string/title_card" />
+
+    <item
+        android:id="@+id/navigation_me"
+        android:icon="@drawable/tab_me_selector"
+        android:title="@string/title_me" />
+
+</menu>

@@ -1,0 +1,23 @@
+ext{
+    version = [
+            eventbusVersion : '3.0.0',
+            greendaoVersion : '3.1.0',
+            pickerVersion   : '4.1.9',
+            rxjavaVersion   : '2.2.17',
+            rxandroidVersion: '2.1.1',
+            lifecyclerVersion      : '1.1.1',
+            butterknifeVersion     : '8.8.0'
+    ]
+
+    dependencies = [
+            "eventbus"              : "org.greenrobot:eventbus:${version["eventbusVersion"]}",
+            "greendao"              : "org.greenrobot:greendao:${version["greendaoVersion"]}",
+            "greendao-generator"    : "org.greenrobot:greendao-generator:${version["greendaoVersion"]}",
+            "pickerview"            : "com.contrarywind:Android-PickerView:${version["pickerVersion"]}",
+            "rxjava"                : "io.reactivex.rxjava2:rxjava:${version["rxjavaVersion"]}",
+            "rxandroid"             : "io.reactivex.rxjava2:rxandroid:${version["rxandroidVersion"]}",
+            "lifecycler"            : "android.arch.lifecycle:extensions:${version["lifecyclerVersion"]}",
+            "butterknife"           : "com.jakewharton:butterknife:${version["butterknifeVersion"]}",
+            "butterknife-compiler"  : "com.jakewharton:butterknife-compiler:${version["butterknifeVersion"]}"
+    ]
+}

@@ -30,6 +30,7 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
         public final static Property Time = new Property(3, java.util.Date.class, "time", false, "TIME");
         public final static Property PrimeCost = new Property(4, float.class, "primeCost", false, "PRIME_COST");
         public final static Property StockCount = new Property(5, int.class, "stockCount", false, "STOCK_COUNT");
+        public final static Property Note = new Property(6, String.class, "note", false, "NOTE");
     }
 
 
@@ -50,7 +51,8 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
                 "\"NAME\" TEXT," + // 2: name
                 "\"TIME\" INTEGER," + // 3: time
                 "\"PRIME_COST\" REAL NOT NULL ," + // 4: primeCost
-                "\"STOCK_COUNT\" INTEGER NOT NULL );"); // 5: stockCount
+                "\"STOCK_COUNT\" INTEGER NOT NULL ," + // 5: stockCount
+                "\"NOTE\" TEXT);"); // 6: note
     }
 
     /** Drops the underlying database table. */
@@ -84,6 +86,11 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
         }
         stmt.bindDouble(5, entity.getPrimeCost());
         stmt.bindLong(6, entity.getStockCount());
+ 
+        String note = entity.getNote();
+        if (note != null) {
+            stmt.bindString(7, note);
+        }
     }
 
     @Override
@@ -111,6 +118,11 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
         }
         stmt.bindDouble(5, entity.getPrimeCost());
         stmt.bindLong(6, entity.getStockCount());
+ 
+        String note = entity.getNote();
+        if (note != null) {
+            stmt.bindString(7, note);
+        }
     }
 
     @Override
@@ -126,7 +138,8 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // name
             cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)), // time
             cursor.getFloat(offset + 4), // primeCost
-            cursor.getInt(offset + 5) // stockCount
+            cursor.getInt(offset + 5), // stockCount
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // note
         );
         return entity;
     }
@@ -139,6 +152,7 @@ public class DetailTypeBeanDao extends AbstractDao<DetailTypeBean, Long> {
         entity.setTime(cursor.isNull(offset + 3) ? null : new java.util.Date(cursor.getLong(offset + 3)));
         entity.setPrimeCost(cursor.getFloat(offset + 4));
         entity.setStockCount(cursor.getInt(offset + 5));
+        entity.setNote(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

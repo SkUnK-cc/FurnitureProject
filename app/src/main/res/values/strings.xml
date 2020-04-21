@@ -20,6 +20,14 @@
     <string name="sellPrice">单价</string>
     <string name="primeCost">成本</string>
 
+    // FragmentStock
+    <string name="stockCount">进货数量</string>
+    <string name="stockPrimeCost">单个成本</string>
+
+    // FragmentOther
+    <string name="otherName">支出名称</string>
+    <string name="otherCount">支出次数</string>
+    <string name="otherPrice">支出金额</string>
     <!--添加其他支出-->
     <string name="payout_title">支出名称</string>
 

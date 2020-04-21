@@ -34,7 +34,7 @@
             android:text="请选择具体商品"/>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_count"
         android:layout_width="match_parent"
         android:layout_height="58dp"
@@ -62,7 +62,7 @@
 
         <EditText
             android:id="@+id/et_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -73,9 +73,9 @@
             android:textColor="@color/colorTextRed"
             android:textColorHint="@color/colorTextRed"
             android:textSize="20sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_price"
         android:layout_width="match_parent"
         android:layout_height="58dp"
@@ -103,18 +103,19 @@
 
         <EditText
             android:id="@+id/et_price"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/tv_price"
             android:background="@null"
             android:gravity="right"
             android:hint="@string/hint_edit_money"
             android:textColor="@color/colorTextRed"
             android:textColorHint="@color/colorTextRed"
             android:textSize="20sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,19 +171,19 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="6dp"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <android.inputmethodservice.KeyboardView
-            android:id="@+id/keyboard_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorKeyboardDivider"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:keyBackground="@drawable/keyboard_select"
-            android:keyTextColor="@color/colorTextWhite"/>
-    </RelativeLayout>
+        <!--<android.inputmethodservice.KeyboardView-->
+            <!--android:id="@+id/keyboard_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@color/colorKeyboardDivider"-->
+            <!--android:focusable="true"-->
+            <!--android:focusableInTouchMode="true"-->
+            <!--android:keyBackground="@drawable/keyboard_select"-->
+            <!--android:keyTextColor="@color/colorTextWhite"/>-->
+    <!--</RelativeLayout>-->
 </LinearLayout>

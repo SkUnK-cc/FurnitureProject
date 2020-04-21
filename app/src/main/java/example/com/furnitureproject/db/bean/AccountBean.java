@@ -12,6 +12,8 @@ public class AccountBean implements Comparable<AccountBean>{
     public static final String TYPE_PAY_STOCK = "进货";
     public static final String TYPE_PAY_OTHER = "其他支出";
 
+    public static final String NAME_ALL = "nameAll";
+
     @Id(autoincrement = true)
     private Long id;
 
@@ -21,7 +23,7 @@ public class AccountBean implements Comparable<AccountBean>{
 
     private String name;
 
-    private float price;
+    private float price;        // 售货时，作为出售价格，进货时，作为支出价格
 
     private float count;
 

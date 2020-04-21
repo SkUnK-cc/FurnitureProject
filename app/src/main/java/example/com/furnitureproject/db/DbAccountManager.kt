@@ -15,7 +15,7 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
     }
 
     override fun getAbstractDao(): AbstractDao<AccountBean, Long> {
-        if(mDaoSession ==null)throw Exception("DaoSession should call init before!")
+        if(mDaoSession ==null)throw Exception("DaoSession should call findView before!")
         return mDaoSession!!.accountBeanDao
     }
 
@@ -30,18 +30,26 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
     fun getAccountList(accountType: String, detailType: String, startTime: Date, endTime: Date): List<AccountBean> {
 
         val builder = getAbstractDao().queryBuilder()
-                .where(AccountBeanDao.Properties.Time.between(startTime, endTime),
-                        AccountBeanDao.Properties.Type.eq(accountType))
-        if (detailType != AccountBean.TYPE_ALL)
+                .where(AccountBeanDao.Properties.Time.between(startTime.time, endTime.time))
+        if(accountType != AccountBean.TYPE_ALL){
+            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+        }
+        if (detailType != AccountBean.NAME_ALL)
             builder.where(AccountBeanDao.Properties.Name.eq(detailType))
         builder.orderAsc(AccountBeanDao.Properties.Time)
         //List<AccountModel> accountList  .list();
         return builder.list()
     }
 
+    fun getAccountList(): MutableList<AccountBean>? {
+        var builder = getAbstractDao().queryBuilder()
+        builder.orderAsc(AccountBeanDao.Properties.Time)
+        return builder.list()
+    }
+
     fun getAccountList(accountType: String, start: Date, end: Date): List<AccountBean>{
         var builder = getAbstractDao().queryBuilder()
-                .where(AccountBeanDao.Properties.Time.between(start,end))
+                .where(AccountBeanDao.Properties.Time.between(start.time,end.time))
         if(accountType != AccountBean.TYPE_ALL){
             builder.where(AccountBeanDao.Properties.Type.eq(accountType))
         }
@@ -49,7 +57,7 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
         return builder.list()
     }
 
-    fun insertAccount(account: AccountBean){
-        getAbstractDao().insert(account)
+    fun insertAccount(account: AccountBean): Long {
+        return getAbstractDao().insert(account)
     }
 }

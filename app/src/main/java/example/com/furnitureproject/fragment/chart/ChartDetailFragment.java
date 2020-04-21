@@ -21,7 +21,6 @@ import java.util.List;
 
 import example.com.furnitureproject.R;
 import example.com.furnitureproject.constant.ChartConfig;
-import example.com.furnitureproject.constant.Extra;
 import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
 import example.com.furnitureproject.db.gen.AccountBeanDao;
@@ -38,6 +37,7 @@ import example.com.furnitureproject.view.chart.bean.PointValue;
 import example.com.furnitureproject.view.chart.support.OnPointSelectListener;
 
 /**
+ * 年月日下的分类，几年、几月、几日
  * @author luo
  * @date 2017/9/15
  */
@@ -64,11 +64,11 @@ public class ChartDetailFragment extends BaseFragment {
     private Date mDateStart, mDateEnd;
     private float mMaxValue = 0f; //list最大值
     private ArrayList<Float> mFloatList;
-    private String mAccountType = AccountBean.TYPE_PAY_STOCK;
+    private String mAccountType = AccountBean.TYPE_INCOME_SELL;
     private int mSelectPosition = 3; //chart当前选中
     private List<ChartDataBean> mRecycleList = new ArrayList<>(); //recycviews数据源
     private ChartDetailCountAdapter mAdapter;
-    private String mDetailType = Extra.DETAIL_TYPE_DEFAULT;
+    private String mDetailType = AccountBean.NAME_ALL;
     private float mDaySumCount; //当天记账总额
 
     public static ChartDetailFragment newInstance(int timeType, int endTime, float maxValue) {
@@ -124,7 +124,7 @@ public class ChartDetailFragment extends BaseFragment {
     }
 
     private void setDaySumCount() {
-        List<AccountBean> accountList = getAccountModels(mSelectPosition, Extra.DETAIL_TYPE_DEFAULT);
+        List<AccountBean> accountList = getAccountModels(mSelectPosition, AccountBean.NAME_ALL);
         mDaySumCount = AccListUtil.sum(accountList);
     }
 
@@ -204,6 +204,7 @@ public class ChartDetailFragment extends BaseFragment {
                 mDays = 7;
                 mDateStart = TimeUtil.getFirstDayOfWeek(TimeUtil.getDateByWeek(mTime));
                 mDateEnd = TimeUtil.getEndDayOfWeek(TimeUtil.getDateByWeek(mTime));
+                mDateEnd.setTime(mDateEnd.getTime()+24*60*60*1000);
                 mAccountList = DbHelper.INSTANCE.getAccountManager().getAccountList(mAccountType, mDetailType, mDateStart, mDateEnd);
                 mFloatList = getValues(mAccountList);
                 //mMaxValue = Collections.max(mFloatList);
@@ -252,7 +253,7 @@ public class ChartDetailFragment extends BaseFragment {
                     else
                         day = TimeUtil.getDayOfYear(new Date(accountModel.getTime()));
                     if (currentDay == day) { //周、月模式同一天的数据累计相加，年为同月数据相加
-                        sumDayCount += accountModel.getCount();
+                        sumDayCount += accountModel.getPrice();
                     }
                 }
 
@@ -289,27 +290,33 @@ public class ChartDetailFragment extends BaseFragment {
         if (accountList != null && accountList.size() > 0) {
 
 
-            String type = accountList.get(0).getName();
-            int imgRes = accountList.get(0).getPicRes();
-            float sumAccountClassify = 0f; //记账总额
-            int addCount = 0; //相加次数(记账笔数)
-            for (AccountBean accountModel : accountList) {
+//            String type = accountList.get(0).getName();
+//            int imgRes = accountList.get(0).getPicRes();
+//            float sumAccountClassify = 0f; //记账总额
+//            int addCount = 0; //相加次数(记账笔数)
+//            for (AccountBean accountModel : accountList) {
+//
+//                if (!accountModel.getName().equals(type)) {
+//                    ChartDataBean chartBean = getChartDataBean(type, imgRes, sumAccountClassify, addCount);
+//                    //Logger.e(NumUtil.getPointFloat(sumAccountClassify/sumAccount, 4) + "");
+//                    mRecycleList.add(chartBean);
+//
+//                    sumAccountClassify = 0f;
+//                    addCount = 0;
+//                    type = accountModel.getName();
+//                    imgRes = accountModel.getPicRes();
+//                }
+//                sumAccountClassify += accountModel.getCount();
+//                addCount++;
+//            }
+//            ChartDataBean chartBean = getChartDataBean(type, imgRes, sumAccountClassify, addCount);
+//            mRecycleList.add(chartBean);
 
-                if (!accountModel.getName().equals(type)) {
-                    ChartDataBean chartBean = getChartDataBean(type, imgRes, sumAccountClassify, addCount);
-                    //Logger.e(NumUtil.getPointFloat(sumAccountClassify/sumAccount, 4) + "");
-                    mRecycleList.add(chartBean);
-
-                    sumAccountClassify = 0f;
-                    addCount = 0;
-                    type = accountModel.getName();
-                    imgRes = accountModel.getPicRes();
-                }
-                sumAccountClassify += accountModel.getCount();
-                addCount++;
+            for (AccountBean accountBean: accountList) {
+                ChartDataBean chartBean = getChartDataBean(accountBean.getName(), accountBean.getPicRes(), accountBean.getPrice(), (int) accountBean.getCount());
+                mRecycleList.add(chartBean);
             }
-            ChartDataBean chartBean = getChartDataBean(type, imgRes, sumAccountClassify, addCount);
-            mRecycleList.add(chartBean);
+
         }
         //对list按照金额反转排序（金额从高到低）
         Collections.sort(mRecycleList);
@@ -345,9 +352,9 @@ public class ChartDetailFragment extends BaseFragment {
 
     public List<AccountBean> getAccountList(String accountType, String detailType, Date startTime, Date endTime) {
         QueryBuilder<AccountBean> builder = DbHelper.INSTANCE.getAccountManager().queryBuilder()
-                .where(AccountBeanDao.Properties.Time.between(startTime, endTime),
+                .where(AccountBeanDao.Properties.Time.between(startTime.getTime(), endTime.getTime()),
                         AccountBeanDao.Properties.Type.eq(accountType));
-        if (!detailType.equals(Extra.DETAIL_TYPE_DEFAULT))
+        if (!detailType.equals(AccountBean.NAME_ALL))
             builder.where(AccountBeanDao.Properties.Name.eq(detailType));
         builder.orderAsc(AccountBeanDao.Properties.Name);
         //List<AccountModel> accountList  .list();
@@ -384,7 +391,7 @@ public class ChartDetailFragment extends BaseFragment {
     //Y轴
     private List<AxisValue> getAxisValuesY() {
         List<AxisValue> axisValues = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 15; i++) {
             AxisValue value = new AxisValue();
             value.setLabel(String.valueOf(i * (mMaxValue / 10)));
             axisValues.add(value);

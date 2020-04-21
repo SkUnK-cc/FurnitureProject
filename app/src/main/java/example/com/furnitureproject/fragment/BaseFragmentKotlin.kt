@@ -29,7 +29,7 @@ abstract class BaseFragmentKotlin: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         rootView = inflater.inflate(getLayoutId(),container,false)
-        init(rootView)
+        findView(rootView)
         initData()
         initView(rootView)
         return rootView
@@ -41,7 +41,7 @@ abstract class BaseFragmentKotlin: Fragment() {
 //        initView(rootView)
     }
 
-    public open fun init(view: View) {
+    public open fun findView(view: View) {
         initDialog()
     }
 

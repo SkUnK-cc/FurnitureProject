@@ -33,18 +33,21 @@ public class DetailTypeBean implements IPickerViewData {
     // 库存
     private int stockCount;
 
+    private String note;
+
     public DetailTypeBean(){
 
     }
 
-    @Generated(hash = 1415558190)
-    public DetailTypeBean(Long id, String type, String name, Date time, float primeCost, int stockCount) {
+    @Generated(hash = 9408859)
+    public DetailTypeBean(Long id, String type, String name, Date time, float primeCost, int stockCount, String note) {
         this.id = id;
         this.type = type;
         this.name = name;
         this.time = time;
         this.primeCost = primeCost;
         this.stockCount = stockCount;
+        this.note = note;
     }
 
     public Date getTime() {
@@ -53,6 +56,14 @@ public class DetailTypeBean implements IPickerViewData {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public Long getId() {
@@ -97,6 +108,11 @@ public class DetailTypeBean implements IPickerViewData {
 
     @Override
     public String getPickerViewText() {
-        return name+",成本 "+primeCost+",库存 "+stockCount;
+        if(type.equals(TYPE_COMMODITY)) {
+            return name + ",成本 " + primeCost + ",库存 " + stockCount;
+        } else if (type.equals(TYPE_PAY_OTHER)) {
+            return name;
+        }
+        return name;
     }
 }

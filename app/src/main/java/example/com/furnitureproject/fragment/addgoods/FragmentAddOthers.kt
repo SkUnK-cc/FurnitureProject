@@ -13,14 +13,21 @@ import com.bigkoo.pickerview.view.TimePickerView
 import example.com.furnitureproject.R
 import example.com.furnitureproject.account.goods.GoodsProvider
 import example.com.furnitureproject.activity.GoodsAddActivity
+import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.DetailTypeBean
+import example.com.furnitureproject.eventbus.bean.EventAddDetailType
 import example.com.furnitureproject.fragment.BaseFragmentKotlin
 import example.com.furnitureproject.utils.KeyboardUtil
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_add_others.*
+import org.greenrobot.eventbus.EventBus
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentAddOthers: BaseFragmentKotlin(), View.OnClickListener {
+class FragmentAddOthers: BaseFragmentKotlin(), View.OnClickListener, GoodsAddActivity.AddDetailTypeFragment {
     private var mPvOptions: OptionsPickerView<DetailTypeBean>? = null
     private var mTimePicker: TimePickerView? = null
     private var selectGoods: DetailTypeBean? = null
@@ -30,7 +37,7 @@ class FragmentAddOthers: BaseFragmentKotlin(), View.OnClickListener {
 
 
     override fun initView(rootView: View) {
-        et_payout_name.setOnClickListener(this)
+//        et_payout_name.setOnClickListener(this)
 //        initKeyBoard()
     }
 
@@ -64,8 +71,34 @@ class FragmentAddOthers: BaseFragmentKotlin(), View.OnClickListener {
 //        }
 //    }
 
-    private fun saveData(it: Float) {
 
+    override fun saveData(): Observable<GoodsAddActivity.SaveMessage> {
+        return Observable.create (ObservableOnSubscribe<GoodsAddActivity.SaveMessage> { emitter ->
+            val list = DbHelper.getDetailTypeManager().getDetailTypeList(DetailTypeBean.TYPE_PAY_OTHER)
+            for (item in list) {
+                if (item.name.toString() == et_payout_name?.text.toString()) {
+                    emitter.onNext(GoodsAddActivity.SaveMessage(false,"支出名称已经存在"))
+                    emitter.onComplete()
+                    return@ObservableOnSubscribe
+                }
+            }
+            if (et_payout_name?.text.toString() == "") {
+                emitter.onNext(GoodsAddActivity.SaveMessage(false,"支出名称不能为空"))
+                emitter.onComplete()
+                return@ObservableOnSubscribe
+//                emitter.onError(Exception("商品名称不能为空！"))
+            }
+            val detailTypeBean = DetailTypeBean()
+            detailTypeBean.name = et_payout_name?.text.toString()
+            detailTypeBean.time = Date()
+            //Logger.e("${et_prime.text.toString()}")
+            detailTypeBean.type = DetailTypeBean.TYPE_PAY_OTHER
+            detailTypeBean.note = et_note?.text.toString()
+            DbHelper.getDetailTypeManager().insert(detailTypeBean)
+            EventBus.getDefault().post(EventAddDetailType(detailTypeBean))
+            emitter.onNext(GoodsAddActivity.SaveMessage(true,"保存成功"))
+            emitter.onComplete()
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun showTimePicker() {

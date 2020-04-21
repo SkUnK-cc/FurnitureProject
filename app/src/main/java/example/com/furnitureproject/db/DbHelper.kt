@@ -28,13 +28,13 @@ object DbHelper {
 //        if(accountManager==null){
 //            accountManager = object: DbManager<AccountBean,Long>(){
 //                override fun getAbstractDao(): AbstractDao<AccountBean, Long> {
-//                    if(mDaoSession==null)throw Exception("DaoSession should call init before!")
+//                    if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
 //                    return mDaoSession!!.accountBeanDao
 //                }
 //            }
 //        }
 //        return accountManager!!
-        if(mDaoSession==null)throw Exception("DaoSession should call init before!")
+        if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
         if(accountManager==null){
             accountManager = DbAccountManager
             accountManager?.setDaoSession(mDaoSession!!)
@@ -46,13 +46,13 @@ object DbHelper {
 //        if(detailTypeBean==null){
 //            detailTypeBean = object: DbManager<DetailTypeBean ,Long>(){
 //                override fun getAbstractDao(): AbstractDao<DetailTypeBean, Long> {
-//                    if(mDaoSession==null)throw Exception("DaoSession should call init before!")
+//                    if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
 //                    return mDaoSession!!.detailTypeBeanDao
 //                }
 //            }
 //        }
 //        return detailTypeBean!!
-        if(mDaoSession==null)throw Exception("DaoSession should call init before!")
+        if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
         if(detailTypeManager==null){
             detailTypeManager = DbDetailTypeManager
             detailTypeManager?.setDaoSession(mDaoSession!!)

@@ -5,6 +5,8 @@ import android.content.Intent
 import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.builder.TimePickerBuilder
@@ -31,6 +33,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddActivity.AddDetailTypeFragment{
+
+    private var select_goods: TextView? = null
+    private var et_prime: EditText? = null
+    private var rl_prime_cost: RelativeLayout? = null
+
     private var mPvOptions: OptionsPickerView<DetailTypeBean>? = null
     private var mTimePicker: TimePickerView? = null
     private var selectGoods: DetailTypeBean? = null
@@ -42,12 +49,19 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
 
 
     override fun initView(rootView: View) {
-        select_goods.setOnClickListener(this)
+        select_goods?.setOnClickListener(this)
         initKeyBoard()
         imm = context!!.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
     }
 
     override fun initData() {
+    }
+
+    override fun findView(view: View) {
+        super.findView(view)
+        select_goods = view.findViewById(R.id.select_goods)
+        et_prime = view.findViewById(R.id.et_prime)
+        rl_prime_cost = view.findViewById(R.id.rl_prime_cost)
     }
 
     override fun getLayoutId(): Int {
@@ -63,8 +77,8 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
     private fun initKeyBoard(){
         keyboardUtil = KeyboardUtil(context,activity,et_prime)
         keyboardUtil?.hideKeyboard()
-        et_prime.inputType = InputType.TYPE_NULL
-        rl_prime_cost.setOnTouchListener { v, event ->
+        et_prime?.inputType = InputType.TYPE_NULL
+        rl_prime_cost?.setOnTouchListener { v, event ->
             imm?.hideSoftInputFromWindow(v.applicationWindowToken,0)
             keyboardUtil?.setEditText(et_prime)
             keyboardUtil?.showKeyboard()
@@ -165,14 +179,14 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
         return Observable.create (ObservableOnSubscribe<GoodsAddActivity.SaveMessage> { emitter ->
             val list = DbHelper.getDetailTypeManager().getDetailTypeList(DetailTypeBean.TYPE_COMMODITY)
             for (item in list) {
-                if (item.name.toString().equals(select_goods.text)) {
+                if (item.name.toString().equals(select_goods?.text)) {
                     emitter.onNext(GoodsAddActivity.SaveMessage(false,"商品已经存在"))
                     emitter.onComplete()
                     return@ObservableOnSubscribe
 //                    emitter.onError(Exception("商品已经存在"))
                 }
             }
-            if (select_goods.text.toString().equals("")) {
+            if (select_goods?.text.toString().equals("")) {
                 emitter.onNext(GoodsAddActivity.SaveMessage(false,"商品名称不能为空"))
                 emitter.onComplete()
                 return@ObservableOnSubscribe
@@ -185,15 +199,16 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
 //                emitter.onError(Exception("请先填写完成\"成本\"选项"))
             }
             val detailTypeBean = DetailTypeBean()
-            detailTypeBean.name = select_goods.text.toString()
+            detailTypeBean.name = select_goods?.text.toString()
             detailTypeBean.time = Date()
             //Logger.e("${et_prime.text.toString()}")
-            if (et_prime.text.toString().equals("")) {
+            if (et_prime?.text.toString().equals("")) {
                 detailTypeBean.primeCost = 0F
             } else {
-                detailTypeBean.primeCost = et_prime.text.toString().toFloat()
+                detailTypeBean.primeCost = et_prime?.text.toString().toFloat()
             }
             detailTypeBean.type = DetailTypeBean.TYPE_COMMODITY
+            detailTypeBean.note = et_note?.text.toString()
             DbHelper.getDetailTypeManager().insert(detailTypeBean)
             EventBus.getDefault().post(EventAddDetailType(detailTypeBean))
             emitter.onNext(GoodsAddActivity.SaveMessage(true,"保存成功"))

@@ -15,7 +15,7 @@ object DbDetailTypeManager: DbManager<DetailTypeBean,Long>() {
     }
 
     override fun getAbstractDao(): AbstractDao<DetailTypeBean, Long> {
-        if(mDaoSession ==null)throw Exception("DaoSession should call init before!")
+        if(mDaoSession ==null)throw Exception("DaoSession should call findView before!")
         return mDaoSession!!.detailTypeBeanDao
     }
 

@@ -22,10 +22,12 @@ import example.com.furnitureproject.utils.AccListUtil;
 import example.com.furnitureproject.utils.TimeUtil;
 
 /**
+ * 年月日
  * 图表
  */
 public class ChartTypeFragment extends BaseFragment {
     private static final String TIME_TYPE = "timeType";
+    private static final String ACCOUNT_TYPE = "accountType";
     public static final int TYPE_WEEK = 1;
     public static final int TYPE_MONTH = 2;
     public static final int TYPE_YEAR = 3;
@@ -45,10 +47,11 @@ public class ChartTypeFragment extends BaseFragment {
     }
 
 
-    public static ChartTypeFragment newInstance(int param1) {
+    public static ChartTypeFragment newInstance(int param1,String accountType) {
         ChartTypeFragment fragment = new ChartTypeFragment();
         Bundle args = new Bundle();
         args.putInt(TIME_TYPE, param1);
+        args.putString(ACCOUNT_TYPE,accountType);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,6 +61,7 @@ public class ChartTypeFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mType = getArguments().getInt(TIME_TYPE);
+            mAccountType = getArguments().getString(ACCOUNT_TYPE);
         }
     }
 
@@ -123,6 +127,7 @@ public class ChartTypeFragment extends BaseFragment {
     private void initChartData() {
         mTitleList.clear();
         mFragmentList.clear();
+
 
         Date maxDate = DbHelper.INSTANCE.getMaxDate();
         Date minDate = DbHelper.INSTANCE.getMinDate();
@@ -204,7 +209,7 @@ public class ChartTypeFragment extends BaseFragment {
                     sumDayCount = 0f;
                 }
                 //如果是同一天则相加
-                sumDayCount += accountModel.getCount();
+                sumDayCount += accountModel.getPrice();
             }
             //循环最后一轮数据还没加入list
             listFloat.add(sumDayCount);

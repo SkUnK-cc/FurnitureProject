@@ -55,7 +55,7 @@ public class ChartPopWindowAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.mTvClassify.setText(mPopList.get(position).getType());
+        holder.mTvClassify.setText(mPopList.get(position).getName());
         holder.mIvClassify.setImageResource(mPopList.get(position).getPicRes());
         return convertView;
     }

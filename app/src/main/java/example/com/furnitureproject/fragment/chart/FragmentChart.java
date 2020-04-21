@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -18,10 +21,12 @@ import java.util.Date;
 import java.util.List;
 
 import example.com.furnitureproject.R;
-import example.com.furnitureproject.constant.Extra;
 import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
 import example.com.furnitureproject.eventbus.bean.ChartClassifyEvent;
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddSellTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddStockTrans;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.fragment.adapter.BaseFragmentPagerAdapter;
 import example.com.furnitureproject.utils.AccListUtil;
@@ -29,10 +34,11 @@ import example.com.furnitureproject.utils.DensityUtil;
 import example.com.furnitureproject.view.ListPopWindow;
 import example.com.furnitureproject.view.SliderLayout;
 
-public class FragmentChart extends BaseFragment {
+public class FragmentChart extends BaseFragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "param1";
     FrameLayout mLlTitleReturn;
+    RadioGroup group;
     RadioButton mRbExpend;
     RadioButton mRbIncome;
     ViewPager mVpChart;
@@ -45,9 +51,9 @@ public class FragmentChart extends BaseFragment {
     private ArrayList<AccountBean> mPopData = new ArrayList<>();
     private ArrayList<String> mTitleList = new ArrayList<>();
     private ArrayList<ChartTypeFragment> mFragmentList = new ArrayList<>();
-    private String mAccountType = AccountBean.TYPE_PAY_STOCK;
+    private String mAccountType = AccountBean.TYPE_INCOME_SELL;
 
-    private String mDetailType = Extra.DETAIL_TYPE_DEFAULT;
+    private String mDetailType = AccountBean.NAME_ALL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,7 @@ public class FragmentChart extends BaseFragment {
     }
 
     @Override
+
     public int getLayoutId() {
         return R.layout.fragment_chart;
     }
@@ -88,7 +95,27 @@ public class FragmentChart extends BaseFragment {
     public void init(@NotNull View view) {
         super.init(view);
         mLlTitleReturn = view.findViewById(R.id.ll_title_return);
+        group = view.findViewById(R.id.rg_type);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int arg1) {
+                switch (radioGroup.getCheckedRadioButtonId()){
+                    case R.id.rb_expend:
+//                        mAccountType = AccountBean.TYPE_PAY_STOCK;
+//                        initData();
+                        break;
+                    case R.id.rb_income:
+//                        mAccountType = AccountBean.TYPE_INCOME_SELL;
+//                        initData();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         mRbExpend = view.findViewById(R.id.rb_expend);
+//        mRbExpend.setOnClickListener(this);
         mRbIncome = view.findViewById(R.id.rb_income);
         mVpChart = view.findViewById(R.id.vp_chart);
         mTabYearMonth = view.findViewById(R.id.tab_year_month);
@@ -96,6 +123,7 @@ public class FragmentChart extends BaseFragment {
 //    TabLayout mTabPeriod;
         mSliderLayout = view.findViewById(R.id.slider_layout);
         mTvClassify = view.findViewById(R.id.tv_classify);
+        mTvClassify.setOnClickListener(this);
     }
 
     private void initChartData() {
@@ -105,17 +133,21 @@ public class FragmentChart extends BaseFragment {
         mTitleList.add("月");
         mTitleList.add("年");
 
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_WEEK));
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_MONTH));
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_YEAR));
+        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_WEEK,mAccountType));
+        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_MONTH,mAccountType));
+        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_YEAR,mAccountType));
     }
 
     private void initPopData() {
         mPopData.clear();
         addHeaderToPop();
 
+//        List<AccountBean> list = DbHelper.INSTANCE.getAccountManager().getAccountList();
+
         Date maxDate = DbHelper.INSTANCE.getMaxDate();
+//        maxDate.setTime(maxDate.getTime()+1);
         Date minDate = DbHelper.INSTANCE.getMinDate();
+//        minDate.setTime(minDate.getTime()-1);
         if (minDate != null && maxDate != null) {
             List<AccountBean> accountList = DbHelper.INSTANCE.getAccountManager().getAccountList(mAccountType, minDate, maxDate);
             mPopData.addAll(AccListUtil.removeRepeat(accountList));
@@ -205,7 +237,7 @@ public class FragmentChart extends BaseFragment {
                 //发送消息通知chartdetailfragment
                 String message;
                 if (position == 0)
-                    message = Extra.DETAIL_TYPE_DEFAULT;
+                    message = AccountBean.NAME_ALL;
                 else
                     message = mPopData.get(position).getName();
                 if (mDetailType.equals(message))
@@ -221,8 +253,34 @@ public class FragmentChart extends BaseFragment {
         return mDetailType;
     }
 
-//    @Subscribe(threadMode = ThreadMode.POSTING)
-//    public void onEvent(List<AccountModel> chartList) {
-//        //Logger.e("收到eventbus");
-//    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_classify:
+                onViewClicked();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void refresh(){
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onSellAdd(EventAddSellTrans e){
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onStockAdd(EventAddStockTrans e){
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onOtherAdd(EventAddOtherTrans e){
+        refresh();
+    }
 }

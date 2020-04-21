@@ -5,7 +5,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import example.com.furnitureproject.R
-import example.com.furnitureproject.constant.Extra
 import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.eventbus.bean.ChartClassifyEvent
@@ -78,9 +77,9 @@ class FragmentChartRR: BaseFragment() {
         mTitleList.add("月")
         mTitleList.add("年")
 
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_WEEK))
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_MONTH))
-        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_YEAR))
+//        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_WEEK))
+//        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_MONTH))
+//        mFragmentList.add(ChartTypeFragment.newInstance(ChartTypeFragment.TYPE_YEAR))
     }
 
     private fun initPopData() {
@@ -147,7 +146,7 @@ class FragmentChartRR: BaseFragment() {
             //发送消息通知chartdetailfragment
             val message: String
             if (position == 0)
-                message = Extra.DETAIL_TYPE_DEFAULT
+                message = AccountBean.NAME_ALL
             else
                 message = mPopData[position].type
             if (mDetailType == message)

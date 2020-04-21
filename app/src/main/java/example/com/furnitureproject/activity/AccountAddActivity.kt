@@ -9,7 +9,9 @@ import com.bigkoo.pickerview.listener.OnDismissListener
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
 import com.bigkoo.pickerview.view.OptionsPickerView
 import example.com.furnitureproject.R
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans
 import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
+import example.com.furnitureproject.eventbus.bean.EventAddStockTrans
 import example.com.furnitureproject.fragment.addaccount.*
 import kotlinx.android.synthetic.main.activity_account_add.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -52,6 +54,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         type2Fragment[TYPE_PAY_OTHER] = FragmentOther()
 
         ll_title_contract.setOnClickListener(this)
+        ll_title_return.setOnClickListener(this)
 
         accountType.setOnClickListener(this)
         accountType.setText(getNameList()[0])
@@ -79,6 +82,9 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
                 ll_title_contract.isClickable = false
                 (fragmentAdapter?.getItem(viewpager.currentItem) as BaseAddTransFragment).saveTrans()
             }
+            R.id.ll_title_return -> {
+                finish()
+            }
         }
     }
 
@@ -99,7 +105,17 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onGoodsAdd(event: EventAddSellTrans){
+    fun onSellAdd(event: EventAddSellTrans){
+        finish()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onStockAdd(event: EventAddStockTrans){
+        finish()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onOtherAdd(event: EventAddOtherTrans){
         finish()
     }
 

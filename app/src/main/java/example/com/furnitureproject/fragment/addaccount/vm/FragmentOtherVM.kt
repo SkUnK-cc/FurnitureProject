@@ -5,10 +5,12 @@ import example.com.furnitureproject.base.BaseViewModel
 import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.db.bean.DetailTypeBean
-import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans
 import org.greenrobot.eventbus.EventBus
+import java.util.*
+import kotlin.math.roundToInt
 
-class FragmentSellVM: BaseViewModel() {
+class FragmentOtherVM: BaseViewModel() {
     var selectGoods: DetailTypeBean? = null
 
     var accountBean: AccountBean = AccountBean()
@@ -17,12 +19,7 @@ class FragmentSellVM: BaseViewModel() {
 
     }
 
-    fun updateStock(count: String){
-        selectGoods?.stockCount = selectGoods?.stockCount!! - count.toInt()
-        DbHelper.getDetailTypeManager().update(selectGoods!!)
-    }
-
-    fun saveTrans(count: String, price: String, note: String, time: Long){
+    fun saveTrans(count: String, note: String, time: Long){
         accountBean.typeId = selectGoods?.id
         accountBean.name = selectGoods?.name
         accountBean.primeCost = selectGoods?.primeCost!!
@@ -32,15 +29,23 @@ class FragmentSellVM: BaseViewModel() {
             accountBean.count = 0f
         }
         accountBean.note = note
-        if(price.isNotEmpty()){
-            accountBean.price = price.toFloat()
-        }else{
-            accountBean.price = 0f
-        }
-        accountBean.type = AccountBean.TYPE_INCOME_SELL
-        accountBean.picRes = R.drawable.ic_income
+//        if(price.isNotEmpty()){
+//            accountBean.price = price.toFloat()
+//        }else{
+//            accountBean.price = 0f
+//        }
+        accountBean.type = AccountBean.TYPE_PAY_OTHER
+        accountBean.picRes = R.drawable.ic_payout
         accountBean.time = time
         val id = DbHelper.getAccountManager().insertAccount(accountBean)
-        EventBus.getDefault().post(EventAddSellTrans())
+        EventBus.getDefault().post(EventAddOtherTrans())
+    }
+
+    fun updateStock(count: String, time: Long) {
+        if(count.isNotEmpty()){
+            selectGoods?.stockCount = selectGoods?.stockCount!! +count.toFloat().roundToInt()
+        }
+        selectGoods?.time = Date(time)
+        DbHelper.getDetailTypeManager().update(selectGoods!!)
     }
 }

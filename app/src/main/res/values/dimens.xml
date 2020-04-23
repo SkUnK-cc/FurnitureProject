@@ -5,4 +5,7 @@
 
     <dimen name="tv_title">20sp</dimen>
     <dimen name="tv_des">17sp</dimen>
+
+    <dimen name="pie_chart_text1_size">42sp</dimen>
+    <dimen name="pie_chart_text2_size">16dp</dimen>
 </resources>

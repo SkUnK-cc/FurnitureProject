@@ -48,6 +48,7 @@ dependencies {
 //    implementation rootProject.ext.dependencies["butterknife"]
 //    kapt rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.dependencies["ultimaterecyclerview"]
+    implementation rootProject.ext.dependencies["helloChart"]
 }
 repositories {
     mavenCentral()

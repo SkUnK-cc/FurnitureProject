@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_bill">
+
+    <ImageView
+        android:id="@+id/iv_analyze_color"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+    <TextView
+        android:id="@+id/tv_analyze_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="15sp"
+        android:text="宠物"
+        android:layout_toRightOf="@id/iv_analyze_color"/>
+
+    <TextView
+        android:id="@+id/tv_analyze_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTextBlackLight"
+        android:textSize="11sp"
+        android:text="逗猫棒"
+        android:layout_toRightOf="@id/iv_analyze_color"
+        android:layout_below="@id/tv_analyze_name"/>
+
+    <TextView
+        android:id="@+id/tv_analyze_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_analyze_name"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBottom="@id/tv_analyze_name"
+        android:textSize="10sp"
+        android:textColor="@color/analyzeCountText"/>
+
+    <TextView
+        android:id="@+id/tv_analyze_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="14dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="15sp"
+        android:text="29.00"/>
+
+</RelativeLayout>

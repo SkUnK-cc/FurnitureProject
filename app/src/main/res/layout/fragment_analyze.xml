@@ -11,4 +11,10 @@
         android:layout_height="300dp"
         android:layout_gravity="center_horizontal">
     </lecho.lib.hellocharts.view.PieChartView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_analyze"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

@@ -31,6 +31,11 @@
     <!--添加其他支出-->
     <string name="payout_title">支出名称</string>
 
+    // AnalyzeSetting
+    <string name="analyze_setting_type">分析类别</string>
+    <string name="analyze_setting_start_time">起始时间</string>
+    <string name="analyze_setting_end_time">结束时间</string>
+
 
     <string name="delete">删除</string>
     <string name="budget_open">开启消费预算</string>

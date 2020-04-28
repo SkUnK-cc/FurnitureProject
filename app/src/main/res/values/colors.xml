@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3f3c51</color>
     <color name="colorPrimaryDark">#3f3c51</color>
     <color name="colorAccent">#3f3c51</color>
+    <color name="analyzeCountText">#837f8c</color>
 
     <!--&lt;!&ndash;主背景颜色&ndash;&gt;-->
     <!--<color name="mainBg">#fbf9ff</color>-->

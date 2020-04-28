@@ -7,7 +7,8 @@ ext{
             rxandroidVersion: '2.1.1',
             lifecyclerVersion      : '1.1.1',
             ultimaterecyclerview   : '0.7.2',
-            helloChartVersion      : '1.5.8'
+            helloChartVersion      : '1.5.8',
+            brvahVersion           : '2.9.30'
     ]
 
     dependencies = [
@@ -19,6 +20,7 @@ ext{
             "rxandroid"             : "io.reactivex.rxjava2:rxandroid:${version["rxandroidVersion"]}",
             "lifecycler"            : "android.arch.lifecycle:extensions:${version["lifecyclerVersion"]}",
             "ultimaterecyclerview"  : "com.marshalchen.ultimaterecyclerview:library:${version["ultimaterecyclerview"]}",
-            "helloChart"            : "com.github.lecho:hellocharts-library:${version["helloChartVersion"]}@aar"
+            "helloChart"            : "com.github.lecho:hellocharts-library:${version["helloChartVersion"]}@aar",
+            "brvah"                 : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["brvahVersion"]}"
     ]
 }

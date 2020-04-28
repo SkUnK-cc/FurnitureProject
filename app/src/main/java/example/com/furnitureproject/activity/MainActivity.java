@@ -16,9 +16,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import example.com.furnitureproject.R;
+import example.com.furnitureproject.custom.viewpager.NoScrollViewPager;
 import example.com.furnitureproject.fragment.FragmentAdd;
 import example.com.furnitureproject.fragment.FragmentBill;
-import example.com.furnitureproject.fragment.FragmentCard;
+import example.com.furnitureproject.fragment.FragmentAnalyze;
 import example.com.furnitureproject.fragment.FragmentMe;
 import example.com.furnitureproject.fragment.chart.FragmentChart;
 import example.com.furnitureproject.view.navigation.BottomAdapter;
@@ -26,7 +27,7 @@ import example.com.furnitureproject.view.navigation.FragmentItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    private NoScrollViewPager viewPager;
     private BottomNavigationView navigation;
 
     private BottomAdapter bottomAdapter;
@@ -70,10 +71,11 @@ public class MainActivity extends AppCompatActivity {
         fragmentList.add(new FragmentItem(R.id.navigation_bill, FragmentBill.class));
         fragmentList.add(new FragmentItem(R.id.navigation_chart, FragmentChart.class));
         fragmentList.add(new FragmentItem(R.id.navigation_add, FragmentAdd.class));
-        fragmentList.add(new FragmentItem(R.id.navigation_card, FragmentCard.class));
+        fragmentList.add(new FragmentItem(R.id.navigation_card, FragmentAnalyze.class));
         fragmentList.add(new FragmentItem(R.id.navigation_me, FragmentMe.class));
 
         viewPager = findViewById(R.id.viewpager);
+        viewPager.setScrollEnable(false);
         viewPager.setOffscreenPageLimit(5);
         bottomAdapter = new BottomAdapter(this,getSupportFragmentManager());
         bottomAdapter.setData(fragmentList);

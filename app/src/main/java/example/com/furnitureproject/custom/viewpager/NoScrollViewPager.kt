@@ -26,9 +26,10 @@ class NoScrollViewPager: ViewPager{
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        if (scrollEnable){
+        if (!scrollEnable){
             return false
         }else{
             return super.onInterceptTouchEvent(ev)
-        }    }
+        }
+    }
 }

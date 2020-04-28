@@ -42,14 +42,24 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
     }
 
     fun getAccountList(): MutableList<AccountBean>? {
-        var builder = getAbstractDao().queryBuilder()
+        val builder = getAbstractDao().queryBuilder()
         builder.orderAsc(AccountBeanDao.Properties.Time)
         return builder.list()
     }
 
     fun getAccountList(accountType: String, start: Date, end: Date): List<AccountBean>{
-        var builder = getAbstractDao().queryBuilder()
+        val builder = getAbstractDao().queryBuilder()
                 .where(AccountBeanDao.Properties.Time.between(start.time,end.time))
+        if(accountType != AccountBean.TYPE_ALL){
+            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+        }
+        builder.orderAsc(AccountBeanDao.Properties.Time)
+        return builder.list()
+    }
+
+    fun getAccountList(accountType: String, start: Long, end: Long): List<AccountBean>{
+        val builder = getAbstractDao().queryBuilder()
+                .where(AccountBeanDao.Properties.Time.between(start,end))
         if(accountType != AccountBean.TYPE_ALL){
             builder.where(AccountBeanDao.Properties.Type.eq(accountType))
         }

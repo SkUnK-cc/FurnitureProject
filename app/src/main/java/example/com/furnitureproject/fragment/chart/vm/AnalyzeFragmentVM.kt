@@ -25,8 +25,6 @@ class AnalyzeFragmentVM: BaseViewModel() {
 
     init {
         type.value = AnalyzeSetting.profitAnalyze
-        startTime = DbHelper.getMinDate()?.time!!
-        endTime = DbHelper.getMaxDate()?.time!!
         initData()
     }
 
@@ -46,12 +44,29 @@ class AnalyzeFragmentVM: BaseViewModel() {
 
     }
 
-    @SuppressLint("NewApi")
-    fun getProfitData(){
-        Observable.create( ObservableOnSubscribe<List<PieItem>>{
-            val rawData = DbHelper.getAccountManager().getAccountList(AccountBean.TYPE_INCOME_SELL,startTime,endTime)
+    fun refreshData() {
+        when(type.value) {
+            AnalyzeSetting.profitAnalyze -> getProfitData()
+            AnalyzeSetting.primeCostAnalyze -> getPrimeCostData()
+            AnalyzeSetting.otherCostAnalyze -> getOtherCostData()
+        }
+    }
+
+    private fun getOtherCostData() {
+        Observable.create( ObservableOnSubscribe<List<PieItem>> {
+            val start = if(startTime == 0L){
+                DbHelper.getMinDate()?.time
+            } else {
+                startTime
+            }
+            val end = if(endTime == 0L){
+                DbHelper.getMaxDate()?.time
+            } else {
+                endTime
+            }
+            val rawData = DbHelper.getAccountManager().getAccountList(AccountBean.TYPE_PAY_OTHER,start!!,end!!)
             if(rawData.isEmpty()){
-                ToastUtil.showShort("数据为空")
+                it.onError(Exception("数据为空"))
                 return@ObservableOnSubscribe
             }
             val map: MutableMap<String,PieItem> = mutableMapOf()
@@ -63,37 +78,141 @@ class AnalyzeFragmentVM: BaseViewModel() {
                     pieItem = map[name]
                 else
                     pieItem = PieItem(name,entry.note,ColorUtils.nextColor())
-                pieItem!!.profit += (entry.price - entry.primeCost) * entry.count
+                pieItem!!.count += entry.count
+                pieItem!!.money += (entry.price * entry.count)
+                map[name] = pieItem!!
+            }
+            it.onNext(map.values.toMutableList())
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe({
+            rvData.value = it
+            val values = ArrayList<SliceValue>()
+            for(item in it){
+                values.add(SliceValue(item.money,item.color).setLabel(item.name))
+            }
+            pieData.value = values
+        },{
+            rvData.value = listOf<PieItem>()
+            pieData.value = ArrayList<SliceValue>()
+            ToastUtil.showShort(it.message)
+        })
+    }
+
+    private fun getPrimeCostData() {
+        Observable.create( ObservableOnSubscribe<List<PieItem>> {
+            val start = if(startTime == 0L){
+                DbHelper.getMinDate()?.time
+            } else {
+                startTime
+            }
+            val end = if(endTime == 0L){
+                DbHelper.getMaxDate()?.time
+            } else {
+                endTime
+            }
+            val rawData = DbHelper.getAccountManager().getAccountList(AccountBean.TYPE_PAY_STOCK,start!!,end!!)
+            if(rawData.isEmpty()){
+                it.onError(Exception("数据为空"))
+                return@ObservableOnSubscribe
+            }
+            val map: MutableMap<String,PieItem> = mutableMapOf()
+            ColorUtils.resetIndex()
+            for(entry in rawData){
+                val name = entry.name
+                var pieItem: PieItem? = null
+                if(map.containsKey(name))
+                    pieItem = map[name]
+                else
+                    pieItem = PieItem(name,entry.note,ColorUtils.nextColor())
+                pieItem!!.count += entry.count
+                pieItem!!.money += (entry.price * entry.count)
+                map[name] = pieItem!!
+            }
+            it.onNext(map.values.toMutableList())
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe({
+            rvData.value = it
+            val values = ArrayList<SliceValue>()
+            for(item in it){
+                values.add(SliceValue(item.money,item.color).setLabel(item.name))
+            }
+            pieData.value = values
+        },{
+            rvData.value = listOf<PieItem>()
+            pieData.value = ArrayList<SliceValue>()
+            ToastUtil.showShort(it.message)
+        })
+    }
+
+
+    @SuppressLint("NewApi")
+    fun getProfitData(){
+        Observable.create( ObservableOnSubscribe<List<PieItem>>{
+            val start = if(startTime == 0L){
+                DbHelper.getMinDate()?.time
+            } else {
+                startTime
+            }
+
+            val end = if(endTime == 0L){
+                DbHelper.getMaxDate()?.time
+            } else {
+                endTime
+            }
+//            startTime = DbHelper.getMinDate()?.time!!
+//            endTime = DbHelper.getMaxDate()?.time!!
+            val rawData = DbHelper.getAccountManager().getAccountList(AccountBean.TYPE_INCOME_SELL,start!!,end!!)
+            if(rawData.isEmpty()){
+                it.onError(Exception("数据为空"))
+                return@ObservableOnSubscribe
+            }
+            val map: MutableMap<String,PieItem> = mutableMapOf()
+            ColorUtils.resetIndex()
+            for(entry in rawData){
+                val name = entry.name
+                var pieItem: PieItem? = null
+                if(map.containsKey(name))
+                    pieItem = map[name]
+                else
+                    pieItem = PieItem(name,entry.note,ColorUtils.nextColor())
+                pieItem!!.count += entry.count
+                pieItem!!.money += (entry.price - entry.primeCost) * entry.count
                 map[name] = pieItem!!
             }
             it.onNext(map.values.toMutableList())
 //            val values = ArrayList<SliceValue>()
 //            ColorUtils.resetIndex()
 //            for(name in map.keys){
-//                values.add(SliceValue(map[name]!!.profit,ColorUtils.nextColor()).setLabel(name))
+//                values.add(SliceValue(map[name]!!.money,ColorUtils.nextColor()).setLabel(name))
 //            }
 //            it.onNext(values)
         }).subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe{
+        .subscribe({
             rvData.value = it
             val values = ArrayList<SliceValue>()
             for(item in it){
-                values.add(SliceValue(item.profit,item.color).setLabel(item.name))
+                values.add(SliceValue(item.money,item.color).setLabel(item.name))
             }
             pieData.value = values
-
-        }
+        },{
+            rvData.value = listOf<PieItem>()
+            pieData.value = ArrayList<SliceValue>()
+            ToastUtil.showShort(it.message)
+        })
     }
 
     fun updateSetting(event: EventAnalyzeSettingChange){
         type.value = event.type
         startTime = event.start
         endTime = event.end
+        refreshData()
     }
 
     class PieItem(val name: String, val note: String, val color: Int){
-        var profit: Float = 0F
-
+        var money: Float = 0F
+        var count: Float = 0F
     }
 }

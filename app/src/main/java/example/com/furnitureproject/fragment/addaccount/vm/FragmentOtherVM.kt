@@ -7,8 +7,6 @@ import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.db.bean.DetailTypeBean
 import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans
 import org.greenrobot.eventbus.EventBus
-import java.util.*
-import kotlin.math.roundToInt
 
 class FragmentOtherVM: BaseViewModel() {
     var selectGoods: DetailTypeBean? = null
@@ -19,10 +17,11 @@ class FragmentOtherVM: BaseViewModel() {
 
     }
 
-    fun saveTrans(count: String, note: String, time: Long){
+    fun saveTrans(price: String, count: String, note: String, time: Long){
         accountBean.typeId = selectGoods?.id
         accountBean.name = selectGoods?.name
         accountBean.primeCost = selectGoods?.primeCost!!
+        accountBean.price = price.toFloat()
         if(count.isNotEmpty()){
             accountBean.count = count.toFloat()
         }else{
@@ -39,13 +38,5 @@ class FragmentOtherVM: BaseViewModel() {
         accountBean.time = time
         val id = DbHelper.getAccountManager().insertAccount(accountBean)
         EventBus.getDefault().post(EventAddOtherTrans())
-    }
-
-    fun updateStock(count: String, time: Long) {
-        if(count.isNotEmpty()){
-            selectGoods?.stockCount = selectGoods?.stockCount!! +count.toFloat().roundToInt()
-        }
-        selectGoods?.time = Date(time)
-        DbHelper.getDetailTypeManager().update(selectGoods!!)
     }
 }

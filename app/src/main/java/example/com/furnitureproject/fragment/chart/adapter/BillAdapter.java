@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 import example.com.furnitureproject.R;
+import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
 import example.com.furnitureproject.utils.TimeUtil;
 
@@ -76,7 +77,7 @@ public class BillAdapter extends UltimateViewAdapter {
 
         ((ItemHoleder) holder).itemView.setTag(position);
         ItemHoleder itemHoleder = (ItemHoleder) holder;
-        float count = mAccountList.get(position).getPrice();
+        float count = mAccountList.get(position).getPrice()*mAccountList.get(position).getCount();
         String type = mAccountList.get(position).getType();
         String note = mAccountList.get(position).getNote();
         String remark = mAccountList.get(position).getNote();
@@ -84,12 +85,12 @@ public class BillAdapter extends UltimateViewAdapter {
             count = -count;
         itemHoleder.tvClassifyMoney.setText(count + "");
         itemHoleder.tvClassify.setText(mAccountList.get(position).getName());
+        itemHoleder.tvTransDetail.setText(mAccountList.get(position).getCount()+"笔"+"  单价："+mAccountList.get(position).getPrice());
         itemHoleder.ivClassify.setImageResource(mAccountList.get(position).getPicRes());
         if ( TextUtils.isEmpty(note) && TextUtils.isEmpty(remark)) {
             itemHoleder.tvClassifyDescribe.setVisibility(View.GONE);
         } else
             itemHoleder.tvClassifyDescribe.setText(note + "," +remark);
-
     }
 
     @Override
@@ -117,15 +118,28 @@ public class BillAdapter extends UltimateViewAdapter {
             if (getDay(date) == generateHeaderId(position)) {
                 String type = mAccountList.get(i).getType();
                 if (type.equals(AccountBean.TYPE_PAY_OTHER)||type.equals(AccountBean.TYPE_PAY_STOCK)) //支出
-                    sumExpend += mAccountList.get(i).getPrice();
+                    sumExpend += mAccountList.get(i).getPrice()*mAccountList.get(i).getCount();
                 if (type.equals(AccountBean.TYPE_INCOME_SELL)) //收入
-                    sumIncome += mAccountList.get(i).getPrice();
+                    sumIncome += mAccountList.get(i).getPrice()*mAccountList.get(i).getCount();
             } else
                 break;
         }
         headerHoleder.tvStickyExpend.setText("支出：" + sumExpend);
         headerHoleder.tvStickyIncome.setText("收入：" + sumIncome);
 
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        super.onItemDismiss(position);
+        removeItem(position);
+    }
+
+    private void removeItem(int position){
+        if(position<0 || position>=mAccountList.size())return;
+        DbHelper.INSTANCE.getAccountManager().deleteAccount(mAccountList.get(position));
+        mAccountList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public interface OnItemClickListener {
@@ -144,6 +158,7 @@ public class BillAdapter extends UltimateViewAdapter {
 
         ImageView ivClassify;
         TextView tvClassify;
+        TextView tvTransDetail;
         TextView tvClassifyDescribe;
         TextView tvClassifyMoney;
         View itemBill;
@@ -153,6 +168,7 @@ public class BillAdapter extends UltimateViewAdapter {
             ivClassify = (ImageView) itemView.findViewById(
                     R.id.iv_classify);
             tvClassify = (TextView) itemView.findViewById(R.id.tv_classify);
+            tvTransDetail = itemView.findViewById(R.id.tv_bill_count);
             tvClassifyDescribe = (TextView) itemView.findViewById(R.id.tv_classify_describe);
             tvClassifyMoney = (TextView) itemView.findViewById(R.id.tv_classify_money);
             itemBill = itemView.findViewById(R.id.item_bill);

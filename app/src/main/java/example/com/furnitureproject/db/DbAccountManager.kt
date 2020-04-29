@@ -70,4 +70,8 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
     fun insertAccount(account: AccountBean): Long {
         return getAbstractDao().insert(account)
     }
+
+    fun deleteAccount(account: AccountBean){
+        getAbstractDao().delete(account)
+    }
 }

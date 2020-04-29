@@ -4,11 +4,14 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
+import example.com.furnitureproject.R;
+
 @Entity
 public class AccountBean implements Comparable<AccountBean>{
 
     public static final String TYPE_ALL = "all";
     public static final String TYPE_INCOME_SELL = "出售";
+    public static final String TYPE_PAYOUT = "所有支出";
     public static final String TYPE_PAY_STOCK = "进货";
     public static final String TYPE_PAY_OTHER = "其他支出";
 
@@ -25,7 +28,7 @@ public class AccountBean implements Comparable<AccountBean>{
 
     private float price;        // 售货时，作为出售价格，进货时，作为支出价格
 
-    private float count;
+    private float count = 1;
 
     private int picRes;
 
@@ -103,6 +106,12 @@ public class AccountBean implements Comparable<AccountBean>{
     }
 
     public int getPicRes() {
+        if(type==null || type.equals(""))return picRes;
+        if(type.equals(TYPE_INCOME_SELL)){
+            return R.drawable.ic_income;
+        }else if (type.equals(TYPE_PAY_STOCK) || type.equals(TYPE_PAY_OTHER)){
+            return R.drawable.ic_payout;
+        }
         return picRes;
     }
 

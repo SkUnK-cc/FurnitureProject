@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/paddingLeft">
 
     <View
         android:layout_width="match_parent"
@@ -17,18 +18,27 @@
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
+
+        <ImageView
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_width"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/icon_margin"
+            android:layout_marginRight="@dimen/icon_margin"
+            android:src="@drawable/ic_category" />
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:text="@string/otherName"
             android:textSize="@dimen/tv_title"/>
         <TextView
             android:id="@+id/select_goods"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:textSize="@dimen/tv_des"
             android:text="请选择具体商品"/>
@@ -42,28 +52,31 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/iv_count"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_width"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/classify_eat" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/icon_margin"
+            android:layout_marginRight="@dimen/icon_margin"
+            android:src="@drawable/ic_count" />
 
         <TextView
             android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="@dimen/select_item_height"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/iv_count"
             android:text="@string/otherCount"
+            android:gravity="center"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/tv_title" />
 
         <EditText
             android:id="@+id/et_count"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="@dimen/select_item_height"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
@@ -83,28 +96,31 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:id="@+id/iv_classify"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_width"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/classify_eat" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/icon_margin"
+            android:layout_marginRight="@dimen/icon_margin"
+            android:src="@drawable/ic_price" />
 
         <TextView
             android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="@dimen/select_item_height"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/iv_classify"
             android:text="@string/otherPrice"
+            android:gravity="center"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/tv_title" />
 
         <EditText
             android:id="@+id/et_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="@dimen/select_item_height"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
@@ -123,18 +139,26 @@
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
+        <ImageView
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_width"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/icon_margin"
+            android:layout_marginRight="@dimen/icon_margin"
+            android:src="@drawable/ic_time" />
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:text="@string/time"
             android:textSize="@dimen/tv_title"/>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:textSize="@dimen/tv_des"
             android:text="请选择日期"/>
@@ -146,18 +170,26 @@
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
+        <ImageView
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_width"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/icon_margin"
+            android:layout_marginRight="@dimen/icon_margin"
+            android:src="@drawable/ic_note" />
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:text="@string/note"
             android:textSize="@dimen/tv_title"/>
         <EditText
             android:id="@+id/et_note"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_height="@dimen/select_item_height"
             android:gravity="center"
             android:textSize="@dimen/tv_des"
             android:hint="写点什么吧！"/>

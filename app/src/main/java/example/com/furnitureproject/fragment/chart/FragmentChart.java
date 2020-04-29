@@ -27,6 +27,7 @@ import example.com.furnitureproject.eventbus.bean.ChartClassifyEvent;
 import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans;
 import example.com.furnitureproject.eventbus.bean.EventAddSellTrans;
 import example.com.furnitureproject.eventbus.bean.EventAddStockTrans;
+import example.com.furnitureproject.eventbus.bean.EventChartTypeChange;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.fragment.adapter.BaseFragmentPagerAdapter;
 import example.com.furnitureproject.utils.AccListUtil;
@@ -102,12 +103,10 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
             public void onCheckedChanged(RadioGroup radioGroup, int arg1) {
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.rb_expend:
-//                        mAccountType = AccountBean.TYPE_PAY_STOCK;
-//                        initData();
+                        EventBus.getDefault().post(new EventChartTypeChange(AccountBean.TYPE_PAY_STOCK));
                         break;
                     case R.id.rb_income:
-//                        mAccountType = AccountBean.TYPE_INCOME_SELL;
-//                        initData();
+                        EventBus.getDefault().post(new EventChartTypeChange(AccountBean.TYPE_INCOME_SELL));
                         break;
                     default:
                         break;
@@ -117,6 +116,8 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
         mRbExpend = view.findViewById(R.id.rb_expend);
 //        mRbExpend.setOnClickListener(this);
         mRbIncome = view.findViewById(R.id.rb_income);
+        mRbIncome.setChecked(true);
+//        mRbIncome.setOnClickListener(this);
         mVpChart = view.findViewById(R.id.vp_chart);
         mTabYearMonth = view.findViewById(R.id.tab_year_month);
         //    @BindView(R.id.tab_period)
@@ -173,7 +174,7 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
         BaseFragmentPagerAdapter adapter = new BaseFragmentPagerAdapter(getChildFragmentManager(), mFragmentList, mTitleList);
         mVpChart.setAdapter(adapter);
         // 设置ViewPager最大缓存的页面个数(cpu消耗少)
-        mVpChart.setOffscreenPageLimit(1);
+        mVpChart.setOffscreenPageLimit(3);
         //vpContent.addOnPageChangeListener(this);
         mVpChart.setCurrentItem(0);
         //adapter.notifyDataSetChanged();
@@ -262,7 +263,6 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
             default:
                 break;
         }
-
     }
 
     private void refresh(){
@@ -282,5 +282,10 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
     @Subscribe(threadMode = ThreadMode.MAIN)
     void onOtherAdd(EventAddOtherTrans e){
         refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onChange(EventChartTypeChange e){
+        mAccountType = e.getType();
     }
 }

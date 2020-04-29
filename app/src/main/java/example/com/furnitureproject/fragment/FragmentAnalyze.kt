@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.graphics.Typeface
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
@@ -11,7 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import example.com.furnitureproject.R
 import example.com.furnitureproject.activity.AnalyzeSetting
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans
 import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
+import example.com.furnitureproject.eventbus.bean.EventAddStockTrans
 import example.com.furnitureproject.eventbus.bean.EventAnalyzeSettingChange
 import example.com.furnitureproject.fragment.adapter.AnalyzeItemRvAdapter
 import example.com.furnitureproject.fragment.chart.vm.AnalyzeFragmentVM
@@ -55,6 +58,8 @@ class FragmentAnalyze: BaseFragmentKotlin(), View.OnClickListener {
         chart?.onValueTouchListener = ValueTouchListener()
         ivAnalyzeSetting?.setOnClickListener(this)
         rvAdapter = AnalyzeItemRvAdapter(R.layout.item_analyze_profit)
+        rvAnalyze?.layoutManager = LinearLayoutManager(context)
+        rvAnalyze?.adapter = rvAdapter
     }
     override fun initData() {
         vm = ViewModelProviders.of(this).get(AnalyzeFragmentVM::class.java)
@@ -143,9 +148,17 @@ class FragmentAnalyze: BaseFragmentKotlin(), View.OnClickListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSettingChange(event: EventAddSellTrans){
-        if(vm?.type?.value == AnalyzeSetting.profitAnalyze){
-            vm?.getProfitData()
-        }
+    fun onAddSellTrans(event: EventAddSellTrans){
+        vm?.refreshData()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAddStockTrans(event: EventAddStockTrans){
+        vm?.refreshData()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAddOtherTrans(event: EventAddOtherTrans){
+        vm?.refreshData()
     }
 }

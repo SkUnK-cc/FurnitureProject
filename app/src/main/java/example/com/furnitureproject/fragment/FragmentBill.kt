@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration
 import example.com.furnitureproject.R
 import example.com.furnitureproject.db.DbHelper
@@ -186,6 +188,24 @@ class FragmentBill: BaseFragmentKotlin(), View.OnClickListener{
                 }
             }
         })
+        val callback = object: SimpleItemTouchHelperCallback(mBillAdapter){
+            override fun getMovementFlags(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?): Int {
+                val drag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                val swipeFlags = ItemTouchHelper.LEFT
+//                return super.getMovementFlags(recyclerView, viewHolder)
+                return ItemTouchHelper.Callback.makeMovementFlags(drag,swipeFlags)
+            }
+
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return true
+            }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                return false
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(mUltimateRecyclerView?.mRecyclerView)
         mUltimateRecyclerView!!.setEmptyView(R.layout.rv_empty_bill, UltimateRecyclerView.EMPTY_CLEAR_ALL)
         if (mAccountList.size == 0)
             mUltimateRecyclerView!!.showEmptyView()

@@ -52,7 +52,7 @@ public class ChartDataBean implements Comparable<ChartDataBean> {
         return total;
     }
 
-    public void setTotal(float total) {
+    public void setTotal(float total) {     //单价
         this.total = total;
     }
 

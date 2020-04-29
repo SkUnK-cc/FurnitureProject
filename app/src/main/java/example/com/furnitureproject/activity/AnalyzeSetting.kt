@@ -143,18 +143,19 @@ class AnalyzeSetting : BaseActivity(), View.OnClickListener {
     private fun saveSetting() {
         if(!checkValid())return
         EventBus.getDefault().post(EventAnalyzeSettingChange(vm?.selectType?.value!!,startTime,endTime))
+        finish()
     }
 
     private fun checkValid(): Boolean {
-        if(startTime==0L){
-            ToastUtil.showShort("请选择起始时间")
-            return false
-        }
-        if(endTime==0L){
-            ToastUtil.showShort("请选择结束时间")
-            return false
-        }
-        if(startTime>endTime){
+//        if(startTime==0L){
+//            ToastUtil.showShort("请选择起始时间")
+//            return false
+//        }
+//        if(endTime==0L){
+//            ToastUtil.showShort("请选择结束时间")
+//            return false
+//        }
+        if(startTime!=0L && endTime!=0L && startTime>endTime){
             ToastUtil.showShort("起始时间不得大于结束时间")
             return false
         }

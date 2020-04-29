@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_income" />
-                            <entry key="sourceFile" value="G:\AllDownLoad\icon\收入.svg" />
+                            <entry key="outputName" value="ic_count" />
+                            <entry key="sourceFile" value="G:\AllDownLoad\icon\数量 (2).svg" />
                           </map>
                         </option>
                       </PersistentState>

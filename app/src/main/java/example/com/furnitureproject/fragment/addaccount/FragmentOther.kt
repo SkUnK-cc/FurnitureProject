@@ -207,6 +207,6 @@ class FragmentOther: BaseAddTransFragment(), View.OnClickListener {
 
     override fun saveTrans() {
         if(!isValidate())return
-        vm?.saveTrans(et_count?.text.toString(),et_note.text.toString(),time!!)
+        vm?.saveTrans(et_price?.text.toString(), et_count?.text.toString(),et_note.text.toString(),time!!)
     }
 }

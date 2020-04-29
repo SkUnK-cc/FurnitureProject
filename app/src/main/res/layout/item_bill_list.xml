@@ -14,29 +14,36 @@
         android:layout_marginBottom="10dp"
         android:src="@mipmap/ic_classify_pet"/>
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tv_classify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="15sp"
+        android:text="宠物"
         android:layout_toRightOf="@id/iv_classify"
-        android:layout_centerVertical="true"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_classify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTextBlack"
-            android:textSize="15sp"
-            android:text="宠物"/>
+        android:layout_alignTop="@id/iv_classify"/>
 
-        <TextView
-            android:id="@+id/tv_classify_describe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/colorTextBlackLight"
-            android:textSize="11sp"
-            android:text="逗猫棒"/>
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_classify_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTextBlackLight"
+        android:textSize="11sp"
+        android:text="逗猫棒"
+        android:layout_toRightOf="@id/iv_classify"
+        android:layout_below="@id/tv_classify"/>
+
+    <TextView
+        android:id="@+id/tv_bill_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlackLight"
+        android:layout_alignBottom="@id/tv_classify"
+        android:layout_toRightOf="@id/tv_classify"
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/tv_classify_money"

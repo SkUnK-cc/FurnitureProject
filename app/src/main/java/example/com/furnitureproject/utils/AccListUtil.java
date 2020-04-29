@@ -21,7 +21,7 @@ public class AccListUtil {
         float sum = 0f;
         if (list != null && list.size() > 0) {
             for (AccountBean accountModel : list) {
-                sum += accountModel.getPrice();
+                sum += accountModel.getPrice()*accountModel.getCount();
             }
         }
         return sum;

@@ -53,6 +53,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         type2Fragment[TYPE_PAY_STOCK] = FragmentStock()
         type2Fragment[TYPE_PAY_OTHER] = FragmentOther()
 
+        toolbar_title.text = "收支记录"
         ll_title_contract.setOnClickListener(this)
         ll_title_return.setOnClickListener(this)
 

@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 import example.com.furnitureproject.R;
 import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
+import example.com.furnitureproject.eventbus.bean.EventChartTypeChange;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.fragment.adapter.BaseFragmentPagerAdapter;
 import example.com.furnitureproject.utils.AccListUtil;
@@ -241,6 +244,11 @@ public class ChartTypeFragment extends BaseFragment {
         //TabLayoutIndicator.setIndicatorWithTextWidth(mTabDettail);
         //了解源码得知 线的宽度是根据 tabView的宽度来设置的
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onChange(EventChartTypeChange e){
+        mAccountType = e.getType();
     }
 
 }

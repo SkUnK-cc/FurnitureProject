@@ -24,7 +24,6 @@ abstract class BaseFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context = activity
-        EventBus.getDefault().register(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,6 +31,7 @@ abstract class BaseFragment: Fragment() {
         init(rootView)
         initData()
         initView(rootView)
+        EventBus.getDefault().register(this)
         return rootView
     }
 

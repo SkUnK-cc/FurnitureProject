@@ -25,6 +25,7 @@ import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
 import example.com.furnitureproject.db.gen.AccountBeanDao;
 import example.com.furnitureproject.eventbus.bean.ChartClassifyEvent;
+import example.com.furnitureproject.eventbus.bean.EventChartTypeChange;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.utils.AccListUtil;
 import example.com.furnitureproject.utils.NumUtil;
@@ -253,9 +254,10 @@ public class ChartDetailFragment extends BaseFragment {
                     else
                         day = TimeUtil.getDayOfYear(new Date(accountModel.getTime()));
                     if (currentDay == day) { //周、月模式同一天的数据累计相加，年为同月数据相加
-                        sumDayCount += accountModel.getPrice();
+                        sumDayCount += accountModel.getPrice()*accountModel.getCount();
                     }
                 }
+                mMaxValue = Math.max(mMaxValue,sumDayCount);
 
                 list.add(sumDayCount);
             }
@@ -326,14 +328,20 @@ public class ChartDetailFragment extends BaseFragment {
     @NonNull
     private ChartDataBean getChartDataBean(String type, int imgRes, float sumAccountClassify, int addCount) {
         ChartDataBean chartBean = new ChartDataBean();
-        chartBean.setTotal(sumAccountClassify);
+        chartBean.setTotal(sumAccountClassify); //单价
         chartBean.setCount(addCount);
         chartBean.setName(type);
         chartBean.setImgRes(imgRes);
-        chartBean.setPrecent(NumUtil.getPointFloat(sumAccountClassify / mDaySumCount, 4));
+        chartBean.setPrecent(NumUtil.getPointFloat(sumAccountClassify*addCount / mDaySumCount, 4));
         return chartBean;
     }
 
+    /**
+     * 根据当前选中的日期，获取RV 数据
+     * @param position
+     * @param detailType
+     * @return
+     */
     private List<AccountBean> getAccountModels(int position, String detailType) {
         Date selectedDate;
         List<AccountBean> list;
@@ -434,6 +442,18 @@ public class ChartDetailFragment extends BaseFragment {
         //Logger.e("收到eventbus：" + classifyEvent.getMessage());
 
         mDetailType = classifyEvent.getMessage();
+        setRecycleListData(mSelectPosition);
+        mAdapter.notifyDataSetChanged();
+
+        initChartData();
+        initLineChart();
+        initTitleText();
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onEvent(EventChartTypeChange message) {
+        //Logger.e("收到eventbus：" + classifyEvent.getMessage());
+        mAccountType = message.getType();
         setRecycleListData(mSelectPosition);
         mAdapter.notifyDataSetChanged();
 

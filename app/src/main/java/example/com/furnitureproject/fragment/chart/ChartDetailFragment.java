@@ -332,6 +332,10 @@ public class ChartDetailFragment extends BaseFragment {
         chartBean.setCount(addCount);
         chartBean.setName(type);
         chartBean.setImgRes(imgRes);
+//        float percent = sumAccountClassify*addCount / mDaySumCount;
+//        DecimalFormat decimalFormat=new DecimalFormat(".00");
+//        String pri=decimalFormat.format(percent);
+//        chartBean.setPrecent(NumUtil.getPointFloat(Float.valueOf(pri), 4));
         chartBean.setPrecent(NumUtil.getPointFloat(sumAccountClassify*addCount / mDaySumCount, 4));
         return chartBean;
     }

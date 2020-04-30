@@ -6,7 +6,6 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.builder.TimePickerBuilder
@@ -36,7 +35,6 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
 
     private var select_goods: TextView? = null
     private var et_prime: EditText? = null
-    private var rl_prime_cost: RelativeLayout? = null
 
     private var mPvOptions: OptionsPickerView<DetailTypeBean>? = null
     private var mTimePicker: TimePickerView? = null
@@ -61,7 +59,6 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
         super.findView(view)
         select_goods = view.findViewById(R.id.select_goods)
         et_prime = view.findViewById(R.id.et_prime)
-        rl_prime_cost = view.findViewById(R.id.rl_prime_cost)
     }
 
     override fun getLayoutId(): Int {
@@ -77,13 +74,14 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
     private fun initKeyBoard(){
         keyboardUtil = KeyboardUtil(context,activity,et_prime)
         keyboardUtil?.hideKeyboard()
-        et_prime?.inputType = InputType.TYPE_NULL
-        rl_prime_cost?.setOnTouchListener { v, event ->
-            imm?.hideSoftInputFromWindow(v.applicationWindowToken,0)
-            keyboardUtil?.setEditText(et_prime)
-            keyboardUtil?.showKeyboard()
-            false
-        }
+//        et_prime?.inputType = InputType.TYPE_NULL
+        et_prime?.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+//        rl_prime_cost?.setOnTouchListener { v, event ->
+//            imm?.hideSoftInputFromWindow(v.applicationWindowToken,0)
+//            keyboardUtil?.setEditText(et_prime)
+//            keyboardUtil?.showKeyboard()
+//            false
+//        }
         keyboardUtil?.setOnKeyListener {
             keyboardUtil?.editText?.setText(it.toString())
             keyboardUtil?.hideKeyboard()

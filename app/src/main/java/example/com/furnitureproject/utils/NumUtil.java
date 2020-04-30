@@ -21,6 +21,7 @@ public class NumUtil {
      * @return
      */
     public static float getPointFloat(float num, int point) {
+        Logger.e(num+"ppp");
         BigDecimal bigDecimal = new BigDecimal(num);
         //   b.setScale(2,  BigDecimal.ROUND_HALF_UP) 表明四舍五入，保留两位小数
         return bigDecimal.setScale(point, BigDecimal.ROUND_HALF_UP).floatValue();

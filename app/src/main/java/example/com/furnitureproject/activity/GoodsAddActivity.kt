@@ -1,10 +1,12 @@
 package example.com.furnitureproject.activity
 
+import android.app.Service
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.listener.OnDismissListener
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
@@ -34,16 +36,17 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
 
     private var selectType = ""
 
+    var type2Fragment = mutableMapOf<String, Fragment>()
+
+    private var imm: InputMethodManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_add)
 
         initView()
+        imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
     }
-
-
-
-    var type2Fragment = mutableMapOf<String, Fragment>()
 
     private fun getNameList(): List<String> {
         return type2Fragment.keys.toMutableList()
@@ -51,6 +54,10 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getFragments(): List<Fragment> {
         return type2Fragment.values.toList()
+    }
+
+    private fun hideDigitBoard() {
+        imm?.hideSoftInputFromWindow(accountType?.applicationWindowToken,0)
     }
 
     private fun initView() {
@@ -83,6 +90,7 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.accountType -> {
+                hideDigitBoard()
                 showTypePicker()
             }
             R.id.ll_title_return -> {

@@ -1,9 +1,11 @@
 package example.com.furnitureproject.activity
 
+import android.app.Service
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.listener.OnDismissListener
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener
@@ -14,6 +16,7 @@ import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
 import example.com.furnitureproject.eventbus.bean.EventAddStockTrans
 import example.com.furnitureproject.fragment.addaccount.*
 import kotlinx.android.synthetic.main.activity_account_add.*
+import kotlinx.android.synthetic.main.activity_goods_add.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -32,6 +35,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_account_add)
 
         initView()
+        imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
     }
 
     val TYPE_INCOME_SELL = "商品收入"
@@ -39,6 +43,8 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
     val TYPE_PAY_OTHER = "其他支出"
 
     var type2Fragment = mutableMapOf<String,BaseAddTransFragment>()
+
+    private var imm: InputMethodManager? = null
 
     private fun getNameList(): List<String> {
         return type2Fragment.keys.toMutableList()
@@ -77,6 +83,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.accountType -> {
+                hideDigitBoard()
                 showTypePicker()
             }
             R.id.ll_title_contract -> {
@@ -87,6 +94,10 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
                 finish()
             }
         }
+    }
+
+    private fun hideDigitBoard() {
+        imm?.hideSoftInputFromWindow(accountType?.applicationWindowToken,0)
     }
 
     private fun showTypePicker(){

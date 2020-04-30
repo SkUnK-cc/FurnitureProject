@@ -128,5 +128,9 @@ object DbHelper {
             return null
 
     }
+
+    fun insertTestData(){
+//        getDetailTypeManager().getAbstractDao().insert(DetailTypeBean())
+    }
 }
 

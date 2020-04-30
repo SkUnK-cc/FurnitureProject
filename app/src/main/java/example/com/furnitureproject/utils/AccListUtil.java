@@ -1,7 +1,6 @@
 package example.com.furnitureproject.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import example.com.furnitureproject.db.bean.AccountBean;
@@ -33,14 +32,14 @@ public class AccListUtil {
      * @return
      */
     public static float max(List<AccountBean> list) {
-        return Collections.max(list).getCount();
-//        float sum = 0f;
-//        if (list != null && list.size() > 0) {
-//            for (AccountModel accountModel : list) {
-//                sum += accountModel.getCount();
-//            }
-//        }
-//        return sum;
+//        return Collections.max(list).getCount();
+        float max = 0f;
+        if (list != null && list.size() > 0) {
+            for (AccountBean accountModel : list) {
+                max = Math.max(max, accountModel.getPrice()*accountModel.getCount());
+            }
+        }
+        return max;
     }
 
 

@@ -53,7 +53,7 @@ public class ChartDetailCountAdapter extends BaseRecycleAdapter {
                 final ItemHolder itemHoleder = (ItemHolder) holder;
                 itemHoleder.mIvClassify.setImageResource(mChartList.get(pos).getImgRes());
                 itemHoleder.mTvClassifyName.setText(mChartList.get(pos).getName());
-                itemHoleder.mTvClassifyCount.setText(mChartList.get(pos).getCount() + "笔"+"  单价:"+mChartList.get(pos).getTotal());
+                itemHoleder.mTvClassifyCount.setText("数量:"+mChartList.get(pos).getCount()+"  单价:"+mChartList.get(pos).getTotal());
                 String percent = NumUtil.getTwoPointFloat(mChartList.get(pos).getPrecent() * 100);
                 itemHoleder.mTvClassifyPercent.setText(percent + "%");
                 itemHoleder.mTvClassifyTotal.setText(mChartList.get(pos).getTotal()*mChartList.get(pos).getCount() + "");

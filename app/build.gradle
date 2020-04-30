@@ -50,6 +50,7 @@ dependencies {
     implementation rootProject.ext.dependencies["ultimaterecyclerview"]
     implementation rootProject.ext.dependencies["helloChart"]
     implementation rootProject.ext.dependencies["brvah"]
+    implementation rootProject.ext.dependencies["circleImageView"]
 }
 repositories {
     mavenCentral()

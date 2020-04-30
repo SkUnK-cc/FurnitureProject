@@ -1,5 +1,6 @@
 package example.com.furnitureproject.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.AppBarLayout
@@ -15,6 +16,7 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration
 import example.com.furnitureproject.R
+import example.com.furnitureproject.activity.AccountEditActivity
 import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.db.gen.AccountBeanDao
@@ -155,9 +157,9 @@ class FragmentBill: BaseFragmentKotlin(), View.OnClickListener{
         mUltimateRecyclerView!!.layoutManager = linearLayoutManager
         mBillAdapter = BillAdapter(mAccountList)
         mBillAdapter!!.setOnItemClickListener { view, position ->
-            //                val intent = Intent(context, CalendarActivity::class.java)
-//                intent.putExtra(Extra.ACCOUNT_DATE, mCurrentDate!!.time)
-//                activity.startActivity(intent)
+            val intent = Intent(context, AccountEditActivity::class.java)
+            intent.putExtra(AccountEditActivity.PARAM_ACCOUNT, mAccountList[position])
+            activity?.startActivity(intent)
             //ToastUtil.showShort(getActivity(), position + "");
         }
 

@@ -7,4 +7,5 @@ abstract class BaseAddTransFragment: BaseFragmentKotlin() {
         const val PARAM_ACCOUNT = "paramAccount"
     }
     abstract fun saveTrans()
+//    abstract fun updateTrans()
 }

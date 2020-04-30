@@ -23,7 +23,6 @@ import example.com.furnitureproject.db.bean.DetailTypeBean
 import example.com.furnitureproject.eventbus.bean.EventAddDetailType
 import example.com.furnitureproject.fragment.addaccount.vm.FragmentOtherVM
 import example.com.furnitureproject.utils.DigitUtil
-import example.com.furnitureproject.utils.KeyboardUtil
 import example.com.furnitureproject.utils.ToastUtil
 import kotlinx.android.synthetic.main.fragment_sell.*
 import org.greenrobot.eventbus.Subscribe
@@ -47,7 +46,7 @@ class FragmentOther: BaseAddTransFragment(), View.OnClickListener {
 
     private var goodsList: MutableList<DetailTypeBean> = mutableListOf()
 
-    private var keyboardUtil: KeyboardUtil? = null
+//    private var keyboardUtil: KeyboardUtil? = null
 
     private var time: Long? = null
     private var inputMethodManager: InputMethodManager? = null
@@ -93,20 +92,20 @@ class FragmentOther: BaseAddTransFragment(), View.OnClickListener {
     }
 
     private fun hideDigitBoard() {
-        keyboardUtil?.hideKeyboard()
+//        keyboardUtil?.hideKeyboard()
         inputMethodManager?.hideSoftInputFromWindow(select_goods?.applicationWindowToken,0)
     }
 
     private fun initKeyBoard(){
-        keyboardUtil = KeyboardUtil(context,activity,et_price)
-        keyboardUtil?.hideKeyboard()
+//        keyboardUtil = KeyboardUtil(context,activity,et_price)
+//        keyboardUtil?.hideKeyboard()
         et_price?.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        keyboardUtil?.setOnKeyListener {
-            keyboardUtil?.editText?.setText(it.toString())
-            keyboardUtil?.hideKeyboard()
-            //saveData(it)
-            //activity?.finish()
-        }
+//        keyboardUtil?.setOnKeyListener {
+//            keyboardUtil?.editText?.setText(it.toString())
+//            keyboardUtil?.hideKeyboard()
+//            //saveData(it)
+//            //activity?.finish()
+//        }
         et_count?.inputType = InputType.TYPE_CLASS_NUMBER
     }
 

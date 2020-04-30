@@ -167,7 +167,7 @@ class FragmentOther: BaseAddTransFragment(), View.OnClickListener {
 
                 tvAddGoods.setOnClickListener {
                     val intent = Intent(context, GoodsAddActivity::class.java)
-                    intent.putExtra(GoodsAddActivity.PARAM_TYPE, GoodsAddActivity.TYPE_COMMODITY)
+                    intent.putExtra(GoodsAddActivity.PARAM_TYPE, GoodsAddActivity.TYPE_PAY_OTHER)
                     startActivity(intent)
                 }
 

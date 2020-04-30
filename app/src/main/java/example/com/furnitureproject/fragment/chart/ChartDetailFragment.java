@@ -25,6 +25,9 @@ import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
 import example.com.furnitureproject.db.gen.AccountBeanDao;
 import example.com.furnitureproject.eventbus.bean.ChartClassifyEvent;
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddSellTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddStockTrans;
 import example.com.furnitureproject.eventbus.bean.EventChartTypeChange;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.utils.AccListUtil;
@@ -144,13 +147,13 @@ public class ChartDetailFragment extends BaseFragment {
     private void initTitleText() {
         switch (mTimeType) {
             case ChartTypeFragment.TYPE_WEEK:
-                mTvExpendTotalDes.setText("最近1周支出总额");
+                mTvExpendTotalDes.setText("最近1周总额");
                 break;
             case ChartTypeFragment.TYPE_MONTH:
-                mTvExpendTotalDes.setText("最近1月支出总额");
+                mTvExpendTotalDes.setText("最近1月总额");
                 break;
             case ChartTypeFragment.TYPE_YEAR:
-                mTvExpendTotalDes.setText("最近1年支出总额");
+                mTvExpendTotalDes.setText("最近1年总额");
                 break;
             default:
                 break;
@@ -364,8 +367,14 @@ public class ChartDetailFragment extends BaseFragment {
 
     public List<AccountBean> getAccountList(String accountType, String detailType, Date startTime, Date endTime) {
         QueryBuilder<AccountBean> builder = DbHelper.INSTANCE.getAccountManager().queryBuilder()
-                .where(AccountBeanDao.Properties.Time.between(startTime.getTime(), endTime.getTime()),
-                        AccountBeanDao.Properties.Type.eq(accountType));
+                .where(AccountBeanDao.Properties.Time.between(startTime.getTime(), endTime.getTime()));
+        if(accountType.equals(AccountBean.TYPE_INCOME_SELL)){
+            builder.where(AccountBeanDao.Properties.Type.eq(accountType));
+        } else if(accountType.equals(AccountBean.TYPE_PAYOUT)){
+            builder.where(AccountBeanDao.Properties.Type.notEq(AccountBean.TYPE_INCOME_SELL));
+        } else {
+            builder.where(AccountBeanDao.Properties.Type.eq(accountType));
+        }
         if (!detailType.equals(AccountBean.NAME_ALL))
             builder.where(AccountBeanDao.Properties.Name.eq(detailType));
         builder.orderAsc(AccountBeanDao.Properties.Name);
@@ -457,6 +466,7 @@ public class ChartDetailFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void onEvent(EventChartTypeChange message) {
         //Logger.e("收到eventbus：" + classifyEvent.getMessage());
+        mSelectChart.setSelectedPoint(-1);
         mAccountType = message.getType();
         setRecycleListData(mSelectPosition);
         mAdapter.notifyDataSetChanged();
@@ -464,6 +474,45 @@ public class ChartDetailFragment extends BaseFragment {
         initChartData();
         initLineChart();
         initTitleText();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onSellAdd(EventAddSellTrans e){
+        if(mAccountType.equals(AccountBean.TYPE_INCOME_SELL)){
+            mSelectChart.setSelectedPoint(-1);
+            setRecycleListData(mSelectPosition);
+            mAdapter.notifyDataSetChanged();
+
+            initChartData();
+            initLineChart();
+            initTitleText();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onStockAdd(EventAddStockTrans e){
+        if(!mAccountType.equals(AccountBean.TYPE_PAYOUT)){
+            mSelectChart.setSelectedPoint(-1);
+            setRecycleListData(mSelectPosition);
+            mAdapter.notifyDataSetChanged();
+
+            initChartData();
+            initLineChart();
+            initTitleText();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onOtherAdd(EventAddOtherTrans e){
+        if(!mAccountType.equals(AccountBean.TYPE_INCOME_SELL)){
+            mSelectChart.setSelectedPoint(-1);
+            setRecycleListData(mSelectPosition);
+            mAdapter.notifyDataSetChanged();
+
+            initChartData();
+            initLineChart();
+            initTitleText();
+        }
     }
 
 }

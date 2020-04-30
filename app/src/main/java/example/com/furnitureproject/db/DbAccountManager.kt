@@ -32,7 +32,14 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
         val builder = getAbstractDao().queryBuilder()
                 .where(AccountBeanDao.Properties.Time.between(startTime.time, endTime.time))
         if(accountType != AccountBean.TYPE_ALL){
-            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            if (accountType == AccountBean.TYPE_INCOME_SELL) {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            } else if (accountType == AccountBean.TYPE_PAYOUT) {
+                builder.where(AccountBeanDao.Properties.Type.notEq(AccountBean.TYPE_INCOME_SELL))
+            } else {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            }
+//            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
         }
         if (detailType != AccountBean.NAME_ALL)
             builder.where(AccountBeanDao.Properties.Name.eq(detailType))
@@ -51,7 +58,14 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
         val builder = getAbstractDao().queryBuilder()
                 .where(AccountBeanDao.Properties.Time.between(start.time,end.time))
         if(accountType != AccountBean.TYPE_ALL){
-            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            if (accountType == AccountBean.TYPE_INCOME_SELL) {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            } else if (accountType == AccountBean.TYPE_PAYOUT) {
+                builder.where(AccountBeanDao.Properties.Type.notEq(AccountBean.TYPE_INCOME_SELL))
+            } else {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            }
+//            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
         }
         builder.orderAsc(AccountBeanDao.Properties.Time)
         return builder.list()
@@ -61,7 +75,14 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
         val builder = getAbstractDao().queryBuilder()
                 .where(AccountBeanDao.Properties.Time.between(start,end))
         if(accountType != AccountBean.TYPE_ALL){
-            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            if (accountType == AccountBean.TYPE_INCOME_SELL) {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            } else if (accountType == AccountBean.TYPE_PAYOUT) {
+                builder.where(AccountBeanDao.Properties.Type.notEq(AccountBean.TYPE_INCOME_SELL))
+            } else {
+                builder.where(AccountBeanDao.Properties.Type.eq(accountType))
+            }
+//            builder.where(AccountBeanDao.Properties.Type.eq(accountType))
         }
         builder.orderAsc(AccountBeanDao.Properties.Time)
         return builder.list()

@@ -14,4 +14,6 @@
 
     <dimen name="pie_chart_text1_size">42sp</dimen>
     <dimen name="pie_chart_text2_size">16dp</dimen>
+
+    <dimen name="picker_view_text_size">16sp</dimen>
 </resources>

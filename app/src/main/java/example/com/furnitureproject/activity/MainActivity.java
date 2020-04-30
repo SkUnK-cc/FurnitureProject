@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if(item.getItemId()==R.id.navigation_add){
                 Intent intent = new Intent(MainActivity.this,AccountAddActivity.class);
+                intent.putExtra(AccountAddActivity.PARAM_TYPE,AccountAddActivity.TYPE_INCOME_SELL);
                 startActivity(intent);
                 return false;
             }

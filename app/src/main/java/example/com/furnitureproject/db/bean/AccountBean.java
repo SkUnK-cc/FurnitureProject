@@ -1,5 +1,8 @@
 package example.com.furnitureproject.db.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
@@ -7,7 +10,7 @@ import org.greenrobot.greendao.annotation.Id;
 import example.com.furnitureproject.R;
 
 @Entity
-public class AccountBean implements Comparable<AccountBean>{
+public class AccountBean implements Comparable<AccountBean>,Parcelable{
 
     public static final String TYPE_ALL = "all";
     public static final String TYPE_INCOME_SELL = "出售";
@@ -153,4 +156,48 @@ public class AccountBean implements Comparable<AccountBean>{
             return 0;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeValue(this.typeId);
+        dest.writeString(this.type);
+        dest.writeString(this.name);
+        dest.writeFloat(this.price);
+        dest.writeFloat(this.count);
+        dest.writeInt(this.picRes);
+        dest.writeLong(this.time);
+        dest.writeFloat(this.primeCost);
+        dest.writeString(this.note);
+    }
+
+    protected AccountBean(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.typeId = (Long) in.readValue(Long.class.getClassLoader());
+        this.type = in.readString();
+        this.name = in.readString();
+        this.price = in.readFloat();
+        this.count = in.readFloat();
+        this.picRes = in.readInt();
+        this.time = in.readLong();
+        this.primeCost = in.readFloat();
+        this.note = in.readString();
+    }
+
+    public static final Creator<AccountBean> CREATOR = new Creator<AccountBean>() {
+        @Override
+        public AccountBean createFromParcel(Parcel source) {
+            return new AccountBean(source);
+        }
+
+        @Override
+        public AccountBean[] newArray(int size) {
+            return new AccountBean[size];
+        }
+    };
 }

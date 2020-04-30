@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".activity.AccountAddActivity" />
         <activity android:name=".activity.GoodsAddActivity" />
-        <activity android:name=".activity.AnalyzeSetting"></activity>
+        <activity android:name=".activity.AnalyzeSetting" />
+        <activity android:name=".activity.AccountEditActivity"></activity>
     </application>
 
 </manifest>

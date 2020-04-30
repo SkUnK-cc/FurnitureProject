@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:padding="8dp"
-            android:text="+添加商品"
+            android:text="+添加其他支出类型"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/picker_view_text_size" />
 

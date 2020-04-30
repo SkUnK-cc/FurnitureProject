@@ -103,7 +103,7 @@ public class FragmentChart extends BaseFragment implements View.OnClickListener 
             public void onCheckedChanged(RadioGroup radioGroup, int arg1) {
                 switch (radioGroup.getCheckedRadioButtonId()){
                     case R.id.rb_expend:
-                        EventBus.getDefault().post(new EventChartTypeChange(AccountBean.TYPE_PAY_STOCK));
+                        EventBus.getDefault().post(new EventChartTypeChange(AccountBean.TYPE_PAYOUT));
                         break;
                     case R.id.rb_income:
                         EventBus.getDefault().post(new EventChartTypeChange(AccountBean.TYPE_INCOME_SELL));

@@ -16,12 +16,18 @@ import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
 import example.com.furnitureproject.eventbus.bean.EventAddStockTrans
 import example.com.furnitureproject.fragment.addaccount.*
 import kotlinx.android.synthetic.main.activity_account_add.*
-import kotlinx.android.synthetic.main.activity_goods_add.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 class AccountAddActivity : BaseActivity(), View.OnClickListener {
+
+    companion object {
+        const val PARAM_TYPE = "paramType"
+        const val TYPE_INCOME_SELL = "商品收入"
+        const val TYPE_PAY_STOCK = "进货"
+        const val TYPE_PAY_OTHER = "其他支出"
+    }
 
     private var typeList = mutableListOf<String>()
     private var mPvOptions: OptionsPickerView<String>? = null
@@ -33,14 +39,12 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_add)
-
+        selectType = intent.getStringExtra(PARAM_TYPE)
         initView()
         imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
     }
 
-    val TYPE_INCOME_SELL = "商品收入"
-    val TYPE_PAY_STOCK = "进货"
-    val TYPE_PAY_OTHER = "其他支出"
+
 
     var type2Fragment = mutableMapOf<String,BaseAddTransFragment>()
 
@@ -54,6 +58,16 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         return type2Fragment.values.toList()
     }
 
+    private fun getTypeIndex(type: String): Int {
+        val nameList = getNameList()
+        for( (index,item) in nameList.withIndex()) {
+            if(item == type){
+                return index
+            }
+        }
+        return 0
+    }
+
     private fun initView() {
         type2Fragment[TYPE_INCOME_SELL] = FragmentSell()
         type2Fragment[TYPE_PAY_STOCK] = FragmentStock()
@@ -63,8 +77,14 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         ll_title_contract.setOnClickListener(this)
         ll_title_return.setOnClickListener(this)
 
+        var index = 0
         accountType.setOnClickListener(this)
-        accountType.setText(getNameList()[0])
+        if(selectType.isNullOrEmpty()) {
+            accountType.setText(getNameList()[0])
+        } else {
+            index = getTypeIndex(selectType)
+            accountType.setText(getNameList()[index])
+        }
         fragmentAdapter = AccountFragmentAdapter(supportFragmentManager)
         fragmentList.addAll(getFragments())
         fragmentAdapter?.setData(fragmentList)
@@ -78,6 +98,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
         })
+        viewpager.currentItem = index
     }
 
     override fun onClick(v: View?) {

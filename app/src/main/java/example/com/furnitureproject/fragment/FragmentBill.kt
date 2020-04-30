@@ -154,14 +154,12 @@ class FragmentBill: BaseFragmentKotlin(), View.OnClickListener{
         val linearLayoutManager = LinearLayoutManager(context)
         mUltimateRecyclerView!!.layoutManager = linearLayoutManager
         mBillAdapter = BillAdapter(mAccountList)
-        mBillAdapter!!.setOnItemClickListener(object : BillAdapter.OnItemClickListener {
-            override fun onItemClick(view: View, position: Int) {
-//                val intent = Intent(context, CalendarActivity::class.java)
+        mBillAdapter!!.setOnItemClickListener { view, position ->
+            //                val intent = Intent(context, CalendarActivity::class.java)
 //                intent.putExtra(Extra.ACCOUNT_DATE, mCurrentDate!!.time)
 //                activity.startActivity(intent)
-                //ToastUtil.showShort(getActivity(), position + "");
-            }
-        })
+            //ToastUtil.showShort(getActivity(), position + "");
+        }
 
         //悬浮头部布局需要加入
         val headersDecor = StickyRecyclerHeadersDecoration(mBillAdapter)

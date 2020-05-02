@@ -29,7 +29,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
         public final static Property Type = new Property(2, String.class, "type", false, "TYPE");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Price = new Property(4, float.class, "price", false, "PRICE");
-        public final static Property Count = new Property(5, float.class, "count", false, "COUNT");
+        public final static Property Count = new Property(5, long.class, "count", false, "COUNT");
         public final static Property PicRes = new Property(6, int.class, "picRes", false, "PIC_RES");
         public final static Property Time = new Property(7, long.class, "time", false, "TIME");
         public final static Property PrimeCost = new Property(8, float.class, "primeCost", false, "PRIME_COST");
@@ -54,7 +54,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
                 "\"TYPE\" TEXT," + // 2: type
                 "\"NAME\" TEXT," + // 3: name
                 "\"PRICE\" REAL NOT NULL ," + // 4: price
-                "\"COUNT\" REAL NOT NULL ," + // 5: count
+                "\"COUNT\" INTEGER NOT NULL ," + // 5: count
                 "\"PIC_RES\" INTEGER NOT NULL ," + // 6: picRes
                 "\"TIME\" INTEGER NOT NULL ," + // 7: time
                 "\"PRIME_COST\" REAL NOT NULL ," + // 8: primeCost
@@ -91,7 +91,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
             stmt.bindString(4, name);
         }
         stmt.bindDouble(5, entity.getPrice());
-        stmt.bindDouble(6, entity.getCount());
+        stmt.bindLong(6, entity.getCount());
         stmt.bindLong(7, entity.getPicRes());
         stmt.bindLong(8, entity.getTime());
         stmt.bindDouble(9, entity.getPrimeCost());
@@ -126,7 +126,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
             stmt.bindString(4, name);
         }
         stmt.bindDouble(5, entity.getPrice());
-        stmt.bindDouble(6, entity.getCount());
+        stmt.bindLong(6, entity.getCount());
         stmt.bindLong(7, entity.getPicRes());
         stmt.bindLong(8, entity.getTime());
         stmt.bindDouble(9, entity.getPrimeCost());
@@ -150,7 +150,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // type
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.getFloat(offset + 4), // price
-            cursor.getFloat(offset + 5), // count
+            cursor.getLong(offset + 5), // count
             cursor.getInt(offset + 6), // picRes
             cursor.getLong(offset + 7), // time
             cursor.getFloat(offset + 8), // primeCost
@@ -166,7 +166,7 @@ public class AccountBeanDao extends AbstractDao<AccountBean, Long> {
         entity.setType(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPrice(cursor.getFloat(offset + 4));
-        entity.setCount(cursor.getFloat(offset + 5));
+        entity.setCount(cursor.getLong(offset + 5));
         entity.setPicRes(cursor.getInt(offset + 6));
         entity.setTime(cursor.getLong(offset + 7));
         entity.setPrimeCost(cursor.getFloat(offset + 8));

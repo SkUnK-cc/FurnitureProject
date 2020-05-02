@@ -17,15 +17,19 @@ class FragmentOtherVM: BaseViewModel() {
 
     }
 
+    fun initAccountBean(accb: AccountBean){
+        this.accountBean = accb
+    }
+
     fun saveTrans(price: String, count: String, note: String, time: Long){
         accountBean.typeId = selectGoods?.id
         accountBean.name = selectGoods?.name
         accountBean.primeCost = selectGoods?.primeCost!!
         accountBean.price = price.toFloat()
         if(count.isNotEmpty()){
-            accountBean.count = count.toFloat()
+            accountBean.count = count.toLong()
         }else{
-            accountBean.count = 0f
+            accountBean.count = 0
         }
         accountBean.note = note
 //        if(price.isNotEmpty()){
@@ -37,6 +41,29 @@ class FragmentOtherVM: BaseViewModel() {
         accountBean.picRes = R.drawable.ic_payout
         accountBean.time = time
         val id = DbHelper.getAccountManager().insertAccount(accountBean)
+        EventBus.getDefault().post(EventAddOtherTrans())
+    }
+
+    fun updateTrans(price: String, count: String, note: String, time: Long){
+        accountBean.typeId = selectGoods?.id
+        accountBean.name = selectGoods?.name
+        accountBean.primeCost = selectGoods?.primeCost!!
+        accountBean.price = price.toFloat()
+        if(count.isNotEmpty()){
+            accountBean.count = count.toLong()
+        }else{
+            accountBean.count = 0
+        }
+        accountBean.note = note
+//        if(price.isNotEmpty()){
+//            accountBean.price = price.toFloat()
+//        }else{
+//            accountBean.price = 0f
+//        }
+        accountBean.type = AccountBean.TYPE_PAY_OTHER
+        accountBean.picRes = R.drawable.ic_payout
+        accountBean.time = time
+        val id = DbHelper.getAccountManager().update(accountBean)
         EventBus.getDefault().post(EventAddOtherTrans())
     }
 }

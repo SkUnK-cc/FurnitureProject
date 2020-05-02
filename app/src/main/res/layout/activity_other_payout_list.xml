@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.AccountAddActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.GoodsListActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,19 +16,17 @@
         app:layout_collapseMode="pin">
         <include
             android:id="@+id/toolbar_content"
-            layout="@layout/layout_toolbar"
+            layout="@layout/layout_list_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </android.support.v7.widget.Toolbar>
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/fragment_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-    <!--</FrameLayout>-->
-    <example.com.furnitureproject.custom.viewpager.NoScrollViewPager
-        android:id="@+id/vp_fragment"
+    <com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </example.com.furnitureproject.custom.viewpager.NoScrollViewPager>
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:id="@+id/ultimate_recycler_view"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 </LinearLayout>

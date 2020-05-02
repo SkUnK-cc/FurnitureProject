@@ -2,18 +2,18 @@ package example.com.furnitureproject.activity
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.FrameLayout
 import example.com.furnitureproject.R
+import example.com.furnitureproject.custom.viewpager.NoScrollViewPager
 import example.com.furnitureproject.db.bean.AccountBean
-import example.com.furnitureproject.fragment.addaccount.BaseAddTransFragment
-import example.com.furnitureproject.fragment.addaccount.FragmentOther
-import example.com.furnitureproject.fragment.addaccount.FragmentSell
-import example.com.furnitureproject.fragment.addaccount.FragmentStock
+import example.com.furnitureproject.eventbus.bean.EventUpdateSell
+import example.com.furnitureproject.fragment.addaccount.*
 import example.com.furnitureproject.utils.ToastUtil
-import kotlinx.android.synthetic.main.layout_toolbar.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
-class AccountEditActivity : AppCompatActivity(), View.OnClickListener {
+class AccountEditActivity : BaseActivity(), View.OnClickListener {
     companion object {
         const val PARAM_ACCOUNT = "paramAccount"
         const val TYPE_INCOME_SELL = "商品收入"
@@ -24,6 +24,9 @@ class AccountEditActivity : AppCompatActivity(), View.OnClickListener {
 
     var fragment: Fragment? = null
     var accountBean: AccountBean? = null
+    private var viewPager: NoScrollViewPager? = null
+    private var ll_title_contract: FrameLayout? = null
+    private var ll_title_return: FrameLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_edit)
@@ -36,22 +39,34 @@ class AccountEditActivity : AppCompatActivity(), View.OnClickListener {
         initView()
     }
     private fun initView() {
+        viewPager = findViewById(R.id.vp_fragment)
+        ll_title_contract = findViewById(R.id.ll_title_contract)
+        ll_title_contract?.setOnClickListener(this)
+        ll_title_return = findViewById(R.id.ll_title_return)
+        ll_title_return?.setOnClickListener(this)
         fragment = getFragmentByType(type)
         if(fragment == null){
             ToastUtil.showShort("类型错误,无法编辑！")
             finish()
+            return
         }
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.fragment_container,fragment).commit()
-        ll_title_contract.setOnClickListener(this)
-        ll_title_return.setOnClickListener(this)
+        val fragmentAdapter = AccountFragmentAdapter(supportFragmentManager)
+        val fragmentList = listOf(fragment!!)
+        fragmentAdapter.setData(fragmentList)
+        viewPager?.setScrollEnable(false)
+        viewPager?.adapter = fragmentAdapter
+
+//        val transaction = fragmentManager.beginTransaction()
+//        transaction.replace(R.id.fragment_container,fragment).commit()
+        ll_title_contract?.setOnClickListener(this)
+        ll_title_return?.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.ll_title_contract -> {
-//                (fragment as BaseAddTransFragment)
+                (fragment as BaseAddTransFragment).updateTrans()
             }
             R.id.ll_title_return -> {
                 finish()
@@ -61,15 +76,19 @@ class AccountEditActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getFragmentByType(type: String): Fragment? {
         val frag: Fragment? = when(type){
-            TYPE_INCOME_SELL -> FragmentSell()
-            TYPE_PAY_STOCK -> FragmentStock()
-            TYPE_PAY_OTHER -> FragmentOther()
+            AccountBean.TYPE_INCOME_SELL -> FragmentSell()
+            AccountBean.TYPE_PAY_STOCK -> FragmentStock()
+            AccountBean.TYPE_PAY_OTHER -> FragmentOther()
             else -> null
         }
         val bundle = Bundle()
         bundle.putParcelable(BaseAddTransFragment.PARAM_ACCOUNT,accountBean)
         frag?.arguments = bundle
         return frag
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSellAdd(event: EventUpdateSell){
+        finish()
     }
 
 

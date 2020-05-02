@@ -23,7 +23,7 @@ object DbDetailTypeManager: DbManager<DetailTypeBean,Long>() {
      * 获取所有商品类
      */
     fun getDetailTypeList(accountType: String): List<DetailTypeBean>{
-        var builder = getAbstractDao().queryBuilder()
+        val builder = getAbstractDao().queryBuilder()
         if(accountType != DetailTypeBean.TYPE_ALL){
             builder.where(DetailTypeBeanDao.Properties.Type.eq(accountType))
         }
@@ -32,13 +32,17 @@ object DbDetailTypeManager: DbManager<DetailTypeBean,Long>() {
     }
 
     fun getDetailTypeList(accountType: String, start: Date, end: Date): List<DetailTypeBean>{
-        var builder = getAbstractDao().queryBuilder()
+        val builder = getAbstractDao().queryBuilder()
                 .where(DetailTypeBeanDao.Properties.Time.between(start,end))
         if(accountType != DetailTypeBean.TYPE_ALL){
             builder.where(DetailTypeBeanDao.Properties.Type.eq(accountType))
         }
         builder.orderAsc(DetailTypeBeanDao.Properties.Time)
         return builder.list()
+    }
+
+    fun deleteDetailItem(item: DetailTypeBean) {
+        getAbstractDao().delete(item)
     }
 
 

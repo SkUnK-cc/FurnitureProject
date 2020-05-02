@@ -16,4 +16,8 @@
     <dimen name="pie_chart_text2_size">16dp</dimen>
 
     <dimen name="picker_view_text_size">16sp</dimen>
+
+    <dimen name="list_item_title_size">20sp</dimen>
+    <dimen name="list_item_money_size">18sp</dimen>
+    <dimen name="list_item_desc_size">18sp</dimen>
 </resources>

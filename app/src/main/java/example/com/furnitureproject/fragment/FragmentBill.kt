@@ -1,6 +1,5 @@
 package example.com.furnitureproject.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.AppBarLayout
@@ -16,13 +15,10 @@ import com.marshalchen.ultimaterecyclerview.UltimateRecyclerView
 import com.marshalchen.ultimaterecyclerview.itemTouchHelper.SimpleItemTouchHelperCallback
 import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration
 import example.com.furnitureproject.R
-import example.com.furnitureproject.activity.AccountEditActivity
 import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.db.gen.AccountBeanDao
-import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans
-import example.com.furnitureproject.eventbus.bean.EventAddSellTrans
-import example.com.furnitureproject.eventbus.bean.EventAddStockTrans
+import example.com.furnitureproject.eventbus.bean.*
 import example.com.furnitureproject.fragment.chart.adapter.BillAdapter
 import example.com.furnitureproject.utils.TimeUtil
 import example.com.furnitureproject.utils.ToastUtil
@@ -157,9 +153,9 @@ class FragmentBill: BaseFragmentKotlin(), View.OnClickListener{
         mUltimateRecyclerView!!.layoutManager = linearLayoutManager
         mBillAdapter = BillAdapter(mAccountList)
         mBillAdapter!!.setOnItemClickListener { view, position ->
-            val intent = Intent(context, AccountEditActivity::class.java)
-            intent.putExtra(AccountEditActivity.PARAM_ACCOUNT, mAccountList[position])
-            activity?.startActivity(intent)
+//            val intent = Intent(context, AccountEditActivity::class.java)
+//            intent.putExtra(AccountEditActivity.PARAM_ACCOUNT, mAccountList[position])
+//            activity?.startActivity(intent)
             //ToastUtil.showShort(getActivity(), position + "");
         }
 
@@ -324,6 +320,24 @@ class FragmentBill: BaseFragmentKotlin(), View.OnClickListener{
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onOtherEvent(event: EventAddOtherTrans) {
+        changeList(0)
+        setTitleView()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onSellEvent(event: EventUpdateSell) {
+        changeList(0)
+        setTitleView()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onStockEvent(event: EventUpdateStock) {
+        changeList(0)
+        setTitleView()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onOtherEvent(event: EventUpdateOther) {
         changeList(0)
         setTitleView()
     }

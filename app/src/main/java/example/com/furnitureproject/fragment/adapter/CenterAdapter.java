@@ -12,7 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import example.com.furnitureproject.R;
-import example.com.furnitureproject.activity.GoodsAddActivity;
+import example.com.furnitureproject.activity.GoodsListActivity;
+import example.com.furnitureproject.activity.OtherPayoutListActivity;
 import example.com.furnitureproject.constant.CenterRes;
 import example.com.furnitureproject.fragment.chart.BaseRecycleAdapter;
 import example.com.furnitureproject.utils.DensityUtil;
@@ -76,14 +77,12 @@ public class CenterAdapter extends BaseRecycleAdapter {
                     public void onClick(View v) {
                         switch (position) {
                             case 0 :
-                                Intent intentToAddGoods = new Intent(context, GoodsAddActivity.class);
-                                intentToAddGoods.putExtra(GoodsAddActivity.Companion.getPARAM_TYPE(),GoodsAddActivity.Companion.getTYPE_COMMODITY());
-                                context.startActivity(intentToAddGoods);
+                                Intent intentToGoodList = new Intent(context, GoodsListActivity.class);
+                                context.startActivity(intentToGoodList);
                                 break;
                             case 1 :
-                                Intent intentToAddOther = new Intent(context, GoodsAddActivity.class);
-                                intentToAddOther.putExtra(GoodsAddActivity.Companion.getPARAM_TYPE(),GoodsAddActivity.Companion.getTYPE_PAY_OTHER());
-                                context.startActivity(intentToAddOther);
+                                Intent intentToOtherList = new Intent(context, OtherPayoutListActivity.class);
+                                context.startActivity(intentToOtherList);
                                 break;
                             case 2 :
                                 //startActivity(BalanceActivity.class);

@@ -108,7 +108,6 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
                 showTypePicker()
             }
             R.id.ll_title_contract -> {
-                ll_title_contract.isClickable = false
                 (fragmentAdapter?.getItem(viewpager.currentItem) as BaseAddTransFragment).saveTrans()
             }
             R.id.ll_title_return -> {

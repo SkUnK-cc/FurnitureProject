@@ -6,7 +6,7 @@ import example.com.furnitureproject.db.gen.DaoSession
 import org.greenrobot.greendao.AbstractDao
 import java.util.*
 
-object DbAccountManager: DbManager<AccountBean,Long>() {
+object  DbAccountManager: DbManager<AccountBean,Long>() {
 
     private var mDaoSession: DaoSession? = null
 
@@ -50,6 +50,13 @@ object DbAccountManager: DbManager<AccountBean,Long>() {
 
     fun getAccountList(): MutableList<AccountBean>? {
         val builder = getAbstractDao().queryBuilder()
+        builder.orderAsc(AccountBeanDao.Properties.Time)
+        return builder.list()
+    }
+
+    fun getAccountList(detailTypeId: Long): List<AccountBean>{
+        val builder = getAbstractDao().queryBuilder()
+                .where(AccountBeanDao.Properties.TypeId.eq(detailTypeId))
         builder.orderAsc(AccountBeanDao.Properties.Time)
         return builder.list()
     }

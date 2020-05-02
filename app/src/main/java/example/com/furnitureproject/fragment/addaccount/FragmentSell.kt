@@ -7,7 +7,6 @@ import android.text.InputType
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder
 import com.bigkoo.pickerview.builder.TimePickerBuilder
@@ -19,7 +18,9 @@ import com.bigkoo.pickerview.view.TimePickerView
 import example.com.furnitureproject.R
 import example.com.furnitureproject.activity.GoodsAddActivity
 import example.com.furnitureproject.db.DbHelper
+import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.db.bean.DetailTypeBean
+import example.com.furnitureproject.db.gen.DetailTypeBeanDao
 import example.com.furnitureproject.eventbus.bean.EventAddDetailType
 import example.com.furnitureproject.fragment.addaccount.vm.FragmentSellVM
 import example.com.furnitureproject.utils.DigitUtil
@@ -36,9 +37,9 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
     private var et_count: EditText? = null
     private var et_price: EditText? = null
     private var tv_time: TextView? = null
-    private var rl_price: RelativeLayout? = null
-    private var rl_count: RelativeLayout? = null
 
+
+    val formatter = SimpleDateFormat("yyyy-MM-dd")
 
     private var vm : FragmentSellVM? = null
 
@@ -47,19 +48,35 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
 
     private var goodsList: MutableList<DetailTypeBean> = mutableListOf()
 
-//    private var keyboardUtil: KeyboardUtil? = null
-
-    private var time: Long? = null
+    private var time: Long = System.currentTimeMillis()
     private var inputMethodManager: InputMethodManager? = null
 
+    private var isUpdate = false
+    var accountBean: AccountBean? = null
 
     override fun initView(rootView: View) {
         vm = ViewModelProviders.of(this).get(FragmentSellVM::class.java)
         select_goods?.setOnClickListener(this)
         tv_time?.setOnClickListener(this)
         initKeyBoard()
-//        et_count?.setText("0")
-//        et_price?.setText("0.0")
+        accountBean = arguments?.getParcelable<AccountBean>(PARAM_ACCOUNT)
+        if(accountBean!=null) {
+            vm?.initAccountBean(accountBean!!)
+            select_goods?.setText(accountBean!!.name)
+            et_count?.setText(accountBean!!.count.toString())
+            et_price?.setText(accountBean!!.price.toString())
+            time = accountBean!!.time
+            et_note?.setText(accountBean!!.note)
+            val detailBean = DbHelper.getDetailTypeManager().getAbstractDao().queryBuilder()
+                    .where(DetailTypeBeanDao.Properties.Name.eq(accountBean!!.name))
+                    .where(DetailTypeBeanDao.Properties.Id.eq(accountBean!!.typeId))
+                    .list()
+            if(detailBean == null || detailBean.isEmpty()){
+                ToastUtil.showShort("查询不到类型")
+            }
+            vm?.selectGoods = detailBean!![0]
+        }
+        tv_time?.text = formatter.format(time)
     }
 
     override fun initData() {
@@ -72,8 +89,6 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
         et_count = view.findViewById(R.id.et_count)
         et_price = view.findViewById(R.id.et_price)
         tv_time = view.findViewById(R.id.tv_time)
-//        rl_price = view.findViewById(R.id.rl_price)
-//        rl_count = view.findViewById(R.id.rl_count)
     }
 
     override fun getLayoutId(): Int {
@@ -99,52 +114,58 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
     }
 
     private fun initKeyBoard(){
-//        keyboardUtil = KeyboardUtil(context,activity,et_price)
-//        keyboardUtil?.hideKeyboard()
-//        et_price?.inputType = InputType.TYPE_NULL
-//        rl_price?.setOnTouchListener { v, event ->
+        /**
+        keyboardUtil = KeyboardUtil(context,activity,et_price)
+        keyboardUtil?.hideKeyboard()
+        et_price?.inputType = InputType.TYPE_NULL
+        rl_price?.setOnTouchListener { v, event ->
+            keyboardUtil?.editText = et_price
+            keyboardUtil?.showKeyboard()
+            false
+        }
+//        et_price?.setOnTouchListener { v, event ->
 //            keyboardUtil?.editText = et_price
 //            keyboardUtil?.showKeyboard()
 //            false
 //        }
-////        et_price?.setOnTouchListener { v, event ->
-////            keyboardUtil?.editText = et_price
-////            keyboardUtil?.showKeyboard()
-////            false
-////        }
-//        et_price?.isEnabled = false
+        et_price?.isEnabled = false
+        */
         et_price?.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-//        keyboardUtil?.setOnKeyListener {
-//            keyboardUtil?.editText?.setText(it.toString())
-//            keyboardUtil?.hideKeyboard()
-//            //saveData(it)
-//            //activity?.finish()
-//        }
-//        et_count?.inputType = InputType.TYPE_NULL
-//        rl_count?.setOnTouchListener{ v, event ->
+        /**
+        keyboardUtil?.setOnKeyListener {
+            keyboardUtil?.editText?.setText(it.toString())
+            keyboardUtil?.hideKeyboard()
+            //saveData(it)
+            //activity?.finish()
+        }
+        et_count?.inputType = InputType.TYPE_NULL
+        rl_count?.setOnTouchListener{ v, event ->
+            keyboardUtil?.editText = et_count
+            keyboardUtil?.showKeyboard()
+            false
+        }
+//        et_count?.setOnTouchListener{ v, event ->
 //            keyboardUtil?.editText = et_count
 //            keyboardUtil?.showKeyboard()
 //            false
 //        }
-////        et_count?.setOnTouchListener{ v, event ->
-////            keyboardUtil?.editText = et_count
-////            keyboardUtil?.showKeyboard()
-////            false
-////        }
-//        et_count?.isEnabled = false
+        et_count?.isEnabled = false
+        */
         et_count?.inputType = InputType.TYPE_CLASS_NUMBER
     }
 
     private fun showTimePicker() {
         mTimePicker = TimePickerBuilder(context,object: OnTimeSelectListener{
             override fun onTimeSelect(date: Date?, v: View?) {
-                val formatter = SimpleDateFormat("yyyy-MM-dd")
                 val dateString = formatter.format(date)
                 tv_time?.text = dateString
-                time = date?.time
+                time = date?.time!!
             }
         }).setType(booleanArrayOf(true, true, true, true, true, true))// 默认全部显示
                 .build()
+        val calendar = Calendar.getInstance()
+        calendar.time = Date(time)
+        mTimePicker?.setDate(calendar)
         mTimePicker?.show()
     }
 
@@ -169,6 +190,10 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
 
 
     private fun showTypePicker(){
+        if(accountBean != null){
+            ToastUtil.showShort("编辑页面不支持修改类型")
+            return
+        }
         if(isTypePickerShow()){
             mPvOptions?.dismiss()
         }
@@ -197,12 +222,6 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
                 }
 
                 tvCancel.setOnClickListener { mPvOptions?.dismiss() }
-//                val wv1 = v.findViewById<WheelView>(R.id.options1)
-//                wv1.adapter = object: ArrayWheelAdapter<DetailTypeBean>(goodsList) {
-//                    override fun getItem(index: Int): Any {
-//                        return goodsList[index].name
-//                    }
-//                }
             }
         }).build()
         mPvOptions?.setPicker(goodsList)
@@ -238,5 +257,37 @@ class FragmentSell: BaseAddTransFragment(), View.OnClickListener {
         if(!isValidate())return
         vm?.updateStock(et_count?.text.toString())
         vm?.saveTrans(et_count?.text.toString(),et_price?.text.toString(),et_note.text.toString(),time!!)
+    }
+
+    private fun isUpdateValidate(): Boolean {
+        if(vm?.selectGoods==null){
+            ToastUtil.showShort("商品名称不能为空")
+            return false
+        }
+        val count = (et_count?.text.toString().toInt() - accountBean!!.count).toString()
+        if(count.isNotEmpty() && !DigitUtil.isInteger(count)){
+            ToastUtil.showShort(tv_count.text.toString()+"格式错误")
+            return false
+        }
+        val price = et_price?.text.toString()
+        if(price.isNotEmpty() && !DigitUtil.isInteger(price) && !DigitUtil.isDouble(price)){
+            ToastUtil.showShort(tv_price.text.toString()+"格式错误")
+            return false
+        }
+        if(time == null){
+            return false
+        }
+        if(count.toFloat()> vm?.selectGoods?.stockCount!!){
+            ToastUtil.showShort("商品库存不足")
+            return false
+        }
+        return true
+    }
+
+    override fun updateTrans() {
+        if(!isUpdateValidate())return
+        val count = et_count?.text.toString().toInt() - accountBean!!.count.toInt()
+        vm?.updateStock(count.toString())
+        vm?.updateTrans(et_count?.text.toString(),et_price?.text.toString(),et_note.text.toString(),time!!)
     }
 }

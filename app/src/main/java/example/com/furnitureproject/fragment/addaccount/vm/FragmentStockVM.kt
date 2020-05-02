@@ -19,14 +19,18 @@ class FragmentStockVM: BaseViewModel() {
 
     }
 
+    fun initAccountBean(accb: AccountBean){
+        this.accountBean = accb
+    }
+
     fun saveTrans(count: String, note: String, time: Long){
         accountBean.typeId = selectGoods?.id
         accountBean.name = selectGoods?.name
         accountBean.price = selectGoods?.primeCost!!
         if(count.isNotEmpty()){
-            accountBean.count = count.toFloat()
+            accountBean.count = count.toLong()
         }else{
-            accountBean.count = 0f
+            accountBean.count = 0
         }
         accountBean.note = note
 //        if(price.isNotEmpty()){
@@ -47,5 +51,27 @@ class FragmentStockVM: BaseViewModel() {
         }
         selectGoods?.time = Date(time)
         DbHelper.getDetailTypeManager().update(selectGoods!!)
+    }
+
+    fun updateTrans(count: String, note: String, time: Long){
+        accountBean.typeId = selectGoods?.id
+        accountBean.name = selectGoods?.name
+        accountBean.price = selectGoods?.primeCost!!
+        if(count.isNotEmpty()){
+            accountBean.count = count.toLong()
+        }else{
+            accountBean.count = 0
+        }
+        accountBean.note = note
+//        if(price.isNotEmpty()){
+//            accountBean.price = price.toFloat()
+//        }else{
+//            accountBean.price = 0f
+//        }
+        accountBean.type = AccountBean.TYPE_PAY_STOCK
+        accountBean.picRes = R.drawable.ic_payout
+        accountBean.time = time
+        val id = DbHelper.getAccountManager().update(accountBean)
+        EventBus.getDefault().post(EventAddStockTrans())
     }
 }

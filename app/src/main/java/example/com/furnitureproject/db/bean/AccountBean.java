@@ -31,7 +31,7 @@ public class AccountBean implements Comparable<AccountBean>,Parcelable{
 
     private float price;        // 售货时，作为出售价格，进货时，作为支出价格
 
-    private float count = 1;
+    private long count = 1;
 
     private int picRes;
 
@@ -61,9 +61,9 @@ public class AccountBean implements Comparable<AccountBean>,Parcelable{
         this.price = price;
     }
 
-    @Generated(hash = 7742413)
-    public AccountBean(Long id, Long typeId, String type, String name, float price, float count, int picRes, long time, float primeCost,
-            String note) {
+    @Generated(hash = 2047453385)
+    public AccountBean(Long id, Long typeId, String type, String name, float price, long count, int picRes, long time,
+            float primeCost, String note) {
         this.id = id;
         this.typeId = typeId;
         this.type = type;
@@ -84,11 +84,11 @@ public class AccountBean implements Comparable<AccountBean>,Parcelable{
         this.id = id;
     }
 
-    public float getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(float count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
@@ -169,7 +169,7 @@ public class AccountBean implements Comparable<AccountBean>,Parcelable{
         dest.writeString(this.type);
         dest.writeString(this.name);
         dest.writeFloat(this.price);
-        dest.writeFloat(this.count);
+        dest.writeLong(this.count);
         dest.writeInt(this.picRes);
         dest.writeLong(this.time);
         dest.writeFloat(this.primeCost);
@@ -182,7 +182,7 @@ public class AccountBean implements Comparable<AccountBean>,Parcelable{
         this.type = in.readString();
         this.name = in.readString();
         this.price = in.readFloat();
-        this.count = in.readFloat();
+        this.count = in.readLong();
         this.picRes = in.readInt();
         this.time = in.readLong();
         this.primeCost = in.readFloat();

@@ -18,7 +18,10 @@ import java.util.List;
 import example.com.furnitureproject.R;
 import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
+import example.com.furnitureproject.db.bean.DetailTypeBean;
+import example.com.furnitureproject.db.gen.DetailTypeBeanDao;
 import example.com.furnitureproject.utils.TimeUtil;
+import example.com.furnitureproject.utils.ToastUtil;
 
 /**
  *
@@ -85,7 +88,7 @@ public class BillAdapter extends UltimateViewAdapter {
             count = -count;
         itemHoleder.tvClassifyMoney.setText(count + "");
         itemHoleder.tvClassify.setText(mAccountList.get(position).getName());
-        itemHoleder.tvTransDetail.setText(mAccountList.get(position).getCount()+"笔"+"  单价："+mAccountList.get(position).getPrice());
+        itemHoleder.tvTransDetail.setText("数量："+mAccountList.get(position).getCount()+"  单价："+mAccountList.get(position).getPrice());
         itemHoleder.ivClassify.setImageResource(mAccountList.get(position).getPicRes());
         if ( TextUtils.isEmpty(note) && TextUtils.isEmpty(remark)) {
             itemHoleder.tvClassifyDescribe.setVisibility(View.GONE);
@@ -137,7 +140,45 @@ public class BillAdapter extends UltimateViewAdapter {
 
     private void removeItem(int position){
         if(position<0 || position>=mAccountList.size())return;
-        DbHelper.INSTANCE.getAccountManager().deleteAccount(mAccountList.get(position));
+        AccountBean item = mAccountList.get(position);
+        if(item.getType().equals(AccountBean.TYPE_INCOME_SELL)) {
+            List<DetailTypeBean> list = DbHelper.INSTANCE.getDetailTypeManager().getAbstractDao().queryBuilder()
+                    .where(DetailTypeBeanDao.Properties.Id.eq(item.getTypeId()))
+                    .where(DetailTypeBeanDao.Properties.Name.eq(item.getName()))
+                    .limit(1)
+                    .list();
+            if (list.isEmpty()){
+                ToastUtil.showShort("找不到该商品，无法删除");
+                return;
+            }
+            DetailTypeBean detailTypeBean = list.get(0);
+            detailTypeBean.setStockCount(detailTypeBean.getStockCount()+(int)item.getCount());
+            DbHelper.INSTANCE.getDetailTypeManager().getAbstractDao().update(detailTypeBean);
+            DbHelper.INSTANCE.getAccountManager().deleteAccount(mAccountList.get(position));
+        } else if(item.getType().equals(AccountBean.TYPE_PAY_STOCK)) {
+            List<DetailTypeBean> list = DbHelper.INSTANCE.getDetailTypeManager().getAbstractDao().queryBuilder()
+                    .where(DetailTypeBeanDao.Properties.Id.eq(item.getTypeId()))
+                    .where(DetailTypeBeanDao.Properties.Name.eq(item.getName()))
+                    .limit(1)
+                    .list();
+            if (list.isEmpty()){
+                ToastUtil.showShort("找不到该商品，无法删除");
+                return;
+            }
+            DetailTypeBean detailTypeBean = list.get(0);
+            if (detailTypeBean.getStockCount()<item.getCount()) {
+                ToastUtil.showShort("库存不足，无法删除");
+                return;
+            }
+            detailTypeBean.setStockCount(detailTypeBean.getStockCount()-(int)item.getCount());
+            DbHelper.INSTANCE.getDetailTypeManager().getAbstractDao().update(detailTypeBean);
+            DbHelper.INSTANCE.getAccountManager().deleteAccount(mAccountList.get(position));
+        } else if (item.getType().equals(AccountBean.TYPE_PAY_OTHER)) {
+            DbHelper.INSTANCE.getAccountManager().deleteAccount(mAccountList.get(position));
+        } else {
+            ToastUtil.showShort("类型错误，无法删除");
+            return ;
+        }
         mAccountList.remove(position);
         notifyItemRemoved(position);
     }

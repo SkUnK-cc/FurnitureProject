@@ -22,7 +22,9 @@
         <activity android:name=".activity.AccountAddActivity" />
         <activity android:name=".activity.GoodsAddActivity" />
         <activity android:name=".activity.AnalyzeSetting" />
-        <activity android:name=".activity.AccountEditActivity"></activity>
+        <activity android:name=".activity.AccountEditActivity" />
+        <activity android:name=".activity.GoodsListActivity" />
+        <activity android:name=".activity.OtherPayoutListActivity"></activity>
     </application>
 
 </manifest>

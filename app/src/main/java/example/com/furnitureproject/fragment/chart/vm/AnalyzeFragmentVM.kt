@@ -8,7 +8,7 @@ import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.AccountBean
 import example.com.furnitureproject.eventbus.bean.EventAnalyzeSettingChange
 import example.com.furnitureproject.utils.ColorUtils
-import example.com.furnitureproject.utils.ToastUtil
+import example.com.furnitureproject.utils.Logger
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -95,7 +95,8 @@ class AnalyzeFragmentVM: BaseViewModel() {
         },{
             rvData.value = listOf<PieItem>()
             pieData.value = ArrayList<SliceValue>()
-            ToastUtil.showShort(it.message)
+//            ToastUtil.showShort(it.message)
+            Logger.e(it.message)
         })
     }
 
@@ -142,7 +143,8 @@ class AnalyzeFragmentVM: BaseViewModel() {
         },{
             rvData.value = listOf<PieItem>()
             pieData.value = ArrayList<SliceValue>()
-            ToastUtil.showShort(it.message)
+//            ToastUtil.showShort(it.message)
+            Logger.e(it.message)
         })
     }
 
@@ -200,7 +202,8 @@ class AnalyzeFragmentVM: BaseViewModel() {
         },{
             rvData.value = listOf<PieItem>()
             pieData.value = ArrayList<SliceValue>()
-            ToastUtil.showShort(it.message)
+//            ToastUtil.showShort(it.message)
+            Logger.e(it.message)
         })
     }
 

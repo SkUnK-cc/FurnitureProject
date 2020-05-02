@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_bill"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/tv_classify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/list_item_title_size"
+        android:text="宠物"
+        android:layout_toRightOf="@id/iv_classify"
+        android:layout_alignTop="@id/iv_classify" />
+
+    <TextView
+        android:id="@+id/tv_classify_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTextBlackLight"
+        android:textSize="@dimen/list_item_desc_size"
+        android:text="无备注"
+        android:layout_toRightOf="@id/iv_classify"
+        android:layout_below="@id/tv_classify"/>
+
+    <TextView
+        android:id="@+id/tv_bill_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlackLight"
+        android:layout_alignBottom="@id/tv_classify"
+        android:layout_toRightOf="@id/tv_classify"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_classify_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="18dp"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="@dimen/list_item_money_size"
+        android:text="29.00"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

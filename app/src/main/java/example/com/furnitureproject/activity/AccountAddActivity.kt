@@ -24,11 +24,12 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
 
     companion object {
         const val PARAM_TYPE = "paramType"
-        const val TYPE_INCOME_SELL = "商品收入"
+        const val TYPE_INCOME_SELL = "售出"
         const val TYPE_PAY_STOCK = "进货"
         const val TYPE_PAY_OTHER = "其他支出"
     }
 
+    private var list = mutableListOf<String>(TYPE_INCOME_SELL, TYPE_PAY_STOCK, TYPE_PAY_OTHER)
     private var typeList = mutableListOf<String>()
     private var mPvOptions: OptionsPickerView<String>? = null
     private var fragmentAdapter: AccountFragmentAdapter? = null
@@ -69,6 +70,9 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
+        for(item in list) {
+
+        }
         type2Fragment[TYPE_INCOME_SELL] = FragmentSell()
         type2Fragment[TYPE_PAY_STOCK] = FragmentStock()
         type2Fragment[TYPE_PAY_OTHER] = FragmentOther()
@@ -87,7 +91,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         }
         fragmentAdapter = AccountFragmentAdapter(supportFragmentManager)
         fragmentList.addAll(getFragments())
-        fragmentAdapter?.setData(fragmentList)
+        fragmentAdapter?.setData(fragmentList,getNameList())
         viewpager.offscreenPageLimit = 3
         viewpager.adapter = fragmentAdapter
         viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -99,6 +103,8 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
             }
         })
         viewpager.currentItem = index
+
+        vp_indicator.setViewPager(viewpager)
     }
 
     override fun onClick(v: View?) {

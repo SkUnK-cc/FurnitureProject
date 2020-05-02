@@ -53,7 +53,7 @@ class AccountEditActivity : BaseActivity(), View.OnClickListener {
 
         val fragmentAdapter = AccountFragmentAdapter(supportFragmentManager)
         val fragmentList = listOf(fragment!!)
-        fragmentAdapter.setData(fragmentList)
+        fragmentAdapter.setData(fragmentList, listOf())
         viewPager?.setScrollEnable(false)
         viewPager?.adapter = fragmentAdapter
 

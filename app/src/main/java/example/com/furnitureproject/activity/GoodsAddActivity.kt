@@ -19,6 +19,7 @@ import example.com.furnitureproject.rxjava.BaseObserver
 import example.com.furnitureproject.utils.ToastUtil
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_goods_add.*
+import kotlinx.android.synthetic.main.activity_goods_add.view.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
@@ -42,7 +43,7 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account_add)
+        setContentView(R.layout.activity_goods_add)
 
         initView()
         imm = getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager?
@@ -69,7 +70,7 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
         accountType.text = selectType
         fragmentAdapter = AccountFragmentAdapter(supportFragmentManager)
         fragmentList.addAll(getFragments())
-        fragmentAdapter?.setData(fragmentList)
+        fragmentAdapter?.setData(fragmentList, getNameList())
         viewpager.offscreenPageLimit = 3
         viewpager.adapter = fragmentAdapter
         viewpager.currentItem = getNameList().indexOf(selectType)
@@ -82,6 +83,8 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
         })
+
+        vp_indicator.setViewPager(viewpager)
 
         ll_title_return.setOnClickListener(this)
         ll_title_contract.setOnClickListener(this)

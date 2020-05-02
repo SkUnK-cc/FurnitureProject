@@ -27,6 +27,7 @@
         android:orientation="horizontal"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
+        android:visibility="gone"
         android:layout_below="@id/toolbar">
         <TextView
             android:layout_width="0dp"
@@ -45,12 +46,19 @@
             android:text="请选择收支类型"/>
     </LinearLayout>
 
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/vp_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
+    </com.viewpagerindicator.TabPageIndicator>
+
     <example.com.furnitureproject.custom.viewpager.NoScrollViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/ll_category">
+        android:layout_below="@id/vp_indicator">
 
     </example.com.furnitureproject.custom.viewpager.NoScrollViewPager>
 

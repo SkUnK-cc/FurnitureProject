@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.GoodsAddActivity"
-    android:orientation="vertical">
+    tools:context=".activity.AccountAddActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,11 +21,14 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/ll_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:visibility="gone"
+        android:layout_below="@id/toolbar">
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -44,11 +46,31 @@
             android:text="请选择收支类型"/>
     </LinearLayout>
 
+    <com.viewpagerindicator.TabPageIndicator
+        android:id="@+id/vp_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
+    </com.viewpagerindicator.TabPageIndicator>
+
     <example.com.furnitureproject.custom.viewpager.NoScrollViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/vp_indicator">
 
     </example.com.furnitureproject.custom.viewpager.NoScrollViewPager>
 
-</LinearLayout>
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorKeyboardDivider"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyBackground="@drawable/keyboard_select"
+        android:keyTextColor="@color/colorTextWhite"
+        android:layout_alignParentEnd="true"/>
+</RelativeLayout>

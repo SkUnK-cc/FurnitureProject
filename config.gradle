@@ -9,7 +9,8 @@ ext{
             ultimaterecyclerview   : '0.7.2',
             helloChartVersion      : '1.5.8',
             brvahVersion           : '2.9.30',
-            circleImageViewVersion : '2.2.0'
+            circleImageViewVersion : '2.2.0',
+            vpIndicatorVersion     : '2.4.1'
     ]
 
     dependencies = [
@@ -23,6 +24,7 @@ ext{
             "ultimaterecyclerview"  : "com.marshalchen.ultimaterecyclerview:library:${version["ultimaterecyclerview"]}",
             "helloChart"            : "com.github.lecho:hellocharts-library:${version["helloChartVersion"]}@aar",
             "brvah"                 : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["brvahVersion"]}",
-            "circleImageView"       : "de.hdodenhof:circleimageview:${version["circleImageViewVersion"]}"
+            "circleImageView"       : "de.hdodenhof:circleimageview:${version["circleImageViewVersion"]}",
+            "vpIndicator"           : "com.github.JakeWharton:ViewPagerIndicator:${version["vpIndicatorVersion"]}"
     ]
 }

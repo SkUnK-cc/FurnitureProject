@@ -33,7 +33,7 @@ class FragmentAddOthers: BaseFragmentKotlin(), View.OnClickListener, GoodsAddAct
     private var selectGoods: DetailTypeBean? = null
     private var goodsList: MutableList<DetailTypeBean> = mutableListOf()
 
-    private var keyboardUtil: KeyboardUtil? = null
+//    private var keyboardUtil: KeyboardUtil? = null
 
 
     override fun initView(rootView: View) {

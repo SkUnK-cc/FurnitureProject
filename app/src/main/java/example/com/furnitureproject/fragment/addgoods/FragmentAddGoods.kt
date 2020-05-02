@@ -21,7 +21,8 @@ import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.DetailTypeBean
 import example.com.furnitureproject.eventbus.bean.EventAddDetailType
 import example.com.furnitureproject.fragment.BaseFragmentKotlin
-import example.com.furnitureproject.utils.KeyboardUtil
+import example.com.furnitureproject.utils.DigitUtil
+import example.com.furnitureproject.utils.ToastUtil
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -41,7 +42,7 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
     private var selectGoods: DetailTypeBean? = null
     private var goodsList: MutableList<DetailTypeBean> = mutableListOf()
 
-    private var keyboardUtil: KeyboardUtil? = null
+//    private var keyboardUtil: KeyboardUtil? = null
 
     private var imm: InputMethodManager? = null
 
@@ -72,22 +73,24 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
     }
 
     private fun initKeyBoard(){
-        keyboardUtil = KeyboardUtil(context,activity,et_prime)
-        keyboardUtil?.hideKeyboard()
+//        keyboardUtil = KeyboardUtil(context,activity,et_prime)
+//        keyboardUtil?.hideKeyboard()
 //        et_prime?.inputType = InputType.TYPE_NULL
         et_prime?.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-//        rl_prime_cost?.setOnTouchListener { v, event ->
-//            imm?.hideSoftInputFromWindow(v.applicationWindowToken,0)
-//            keyboardUtil?.setEditText(et_prime)
-//            keyboardUtil?.showKeyboard()
-//            false
-//        }
+        /**
+        rl_prime_cost?.setOnTouchListener { v, event ->
+            imm?.hideSoftInputFromWindow(v.applicationWindowToken,0)
+            keyboardUtil?.setEditText(et_prime)
+            keyboardUtil?.showKeyboard()
+            false
+        }
         keyboardUtil?.setOnKeyListener {
             keyboardUtil?.editText?.setText(it.toString())
             keyboardUtil?.hideKeyboard()
             //saveData(it)
             //activity?.finish()
         }
+        */
     }
 
     private fun showTimePicker() {
@@ -141,38 +144,6 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
         mPvOptions?.show()
     }
 
-    /**
-     * val list = DbHelper.getDetailTypeManager().getDetailTypeList(DetailTypeBean.TYPE_COMMODITY)
-    for(item in list){
-    if(item.name.equals(et_goods.text)){
-    emitter.onError(Exception(""))
-    ToastUtil.showShort("商品已经存在")
-    return false
-    }
-    }
-    if(et_goods.text.equals("")){
-    ToastUtil.showShort("商品名称不能为空！")
-    return false
-    }
-    if(keyboardUtil?.isKeyboardShowing!!){
-    ToastUtil.showShort(context,"请先填写完成\"成本\"选项")
-    return false
-    }
-    val detailTypeBean = DetailTypeBean()
-    detailTypeBean.name = et_goods.text.toString()
-    detailTypeBean.time = Date()
-    //Logger.e("${et_prime.text.toString()}")
-    if(et_prime.text.toString().equals("")){
-    detailTypeBean.primeCost = 0F
-    }else{
-    detailTypeBean.primeCost = et_prime.text.toString().toFloat()
-    }
-    detailTypeBean.type = DetailTypeBean.TYPE_COMMODITY
-    DbHelper.getDetailTypeManager().insert(detailTypeBean)
-    EventBus.getDefault().post(EventAddDetailType(detailTypeBean))
-    return true
-     */
-
     override fun saveData(): Observable<GoodsAddActivity.SaveMessage> {
         return Observable.create (ObservableOnSubscribe<GoodsAddActivity.SaveMessage> { emitter ->
             val list = DbHelper.getDetailTypeManager().getDetailTypeList(DetailTypeBean.TYPE_COMMODITY)
@@ -190,17 +161,16 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
                 return@ObservableOnSubscribe
 //                emitter.onError(Exception("商品名称不能为空！"))
             }
-            if (keyboardUtil?.isKeyboardShowing!!) {
-                emitter.onNext(GoodsAddActivity.SaveMessage(false,"请先填写完成\"成本\"选项"))
-                emitter.onComplete()
-                return@ObservableOnSubscribe
-//                emitter.onError(Exception("请先填写完成\"成本\"选项"))
-            }
             val detailTypeBean = DetailTypeBean()
             detailTypeBean.name = select_goods?.text.toString()
             detailTypeBean.time = Date()
             //Logger.e("${et_prime.text.toString()}")
-            if (et_prime?.text.toString().equals("")) {
+            val primeCost = et_prime?.text.toString()
+            if(primeCost.isNotEmpty() && !DigitUtil.isInteger(primeCost) && !DigitUtil.isDouble(primeCost)){
+                ToastUtil.showShort(tv_prime.text.toString()+"格式错误")
+                return@ObservableOnSubscribe
+            }
+            if (et_prime?.text.toString() == "") {
                 detailTypeBean.primeCost = 0F
             } else {
                 detailTypeBean.primeCost = et_prime?.text.toString().toFloat()

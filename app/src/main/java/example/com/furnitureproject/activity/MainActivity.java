@@ -1,13 +1,17 @@
 package example.com.furnitureproject.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -22,6 +26,7 @@ import example.com.furnitureproject.fragment.FragmentBill;
 import example.com.furnitureproject.fragment.FragmentAnalyze;
 import example.com.furnitureproject.fragment.FragmentMe;
 import example.com.furnitureproject.fragment.chart.FragmentChart;
+import example.com.furnitureproject.utils.ToastUtil;
 import example.com.furnitureproject.view.navigation.BottomAdapter;
 import example.com.furnitureproject.view.navigation.FragmentItem;
 
@@ -58,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        checkPermission();
         initView();
+    }
+
+    private void checkPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -124,6 +136,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode){
+            case 0:
+                if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+
+                }else {
+                    ToastUtil.showShort("无法使用XML导出功能");
+                }
+                break;
+        }
+    }
 }

@@ -15,8 +15,12 @@ import example.com.furnitureproject.R;
 import example.com.furnitureproject.activity.GoodsListActivity;
 import example.com.furnitureproject.activity.OtherPayoutListActivity;
 import example.com.furnitureproject.constant.CenterRes;
+import example.com.furnitureproject.db.DatabaseDump;
 import example.com.furnitureproject.fragment.chart.BaseRecycleAdapter;
 import example.com.furnitureproject.utils.DensityUtil;
+import example.com.furnitureproject.utils.ToastUtil;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 单选模式
@@ -85,7 +89,28 @@ public class CenterAdapter extends BaseRecycleAdapter {
                                 context.startActivity(intentToOtherList);
                                 break;
                             case 2 :
-                                //startActivity(BalanceActivity.class);
+                                DatabaseDump.dumpAccountToFile("AccountFilt.xls").subscribe(new Observer<String>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(String s) {
+                                        ToastUtil.showShort(s);
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+
+                                    }
+                                });
+
                                 break;
                             case 3 :
 //                                startActivity(RemindManagerActivity.class);

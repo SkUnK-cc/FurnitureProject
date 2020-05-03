@@ -18,6 +18,7 @@ class FragmentMe: BaseFragmentKotlin() {
     private var mCollapsingToolbar: CollapsingToolbarLayout? = null
     private var mAppBarLayout: AppBarLayout? = null
     private var mParam1: String? = null
+    private var adapter: CenterAdapter? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,10 +39,10 @@ class FragmentMe: BaseFragmentKotlin() {
     override fun initView(rootView: View) {
         mAppBarLayout?.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             if (Math.abs(verticalOffset) >= appBarLayout.totalScrollRange) {
-                mCollapsingToolbar?.setTitle("我的")
+                mCollapsingToolbar?.title = "我的"
                 //Logger.e("折叠状态");
             } else
-                mCollapsingToolbar?.setTitle("")
+                mCollapsingToolbar?.title = ""
             //Logger.e("展开状态");
         })
         initRecycleView()
@@ -49,8 +50,8 @@ class FragmentMe: BaseFragmentKotlin() {
 
     private fun initRecycleView() {
         val linearLayoutManager = LinearLayoutManager(context)
-        mRvMine?.setLayoutManager(linearLayoutManager)
-        mRvMine?.setAdapter(CenterAdapter(context))
+        mRvMine?.layoutManager = linearLayoutManager
+        mRvMine?.adapter = CenterAdapter(context)
     }
 
     override fun initData() {

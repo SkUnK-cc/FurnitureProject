@@ -52,6 +52,7 @@ dependencies {
     implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["circleImageView"]
     implementation rootProject.ext.dependencies["vpIndicator"]
+    implementation rootProject.ext.dependencies["jxl"]
 }
 repositories {
     mavenCentral()

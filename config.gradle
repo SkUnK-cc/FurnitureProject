@@ -10,7 +10,8 @@ ext{
             helloChartVersion      : '1.5.8',
             brvahVersion           : '2.9.30',
             circleImageViewVersion : '2.2.0',
-            vpIndicatorVersion     : '2.4.1'
+            vpIndicatorVersion     : '2.4.1',
+            jxlVersion             : '2.6.12'
     ]
 
     dependencies = [
@@ -25,6 +26,7 @@ ext{
             "helloChart"            : "com.github.lecho:hellocharts-library:${version["helloChartVersion"]}@aar",
             "brvah"                 : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["brvahVersion"]}",
             "circleImageView"       : "de.hdodenhof:circleimageview:${version["circleImageViewVersion"]}",
-            "vpIndicator"           : "com.github.JakeWharton:ViewPagerIndicator:${version["vpIndicatorVersion"]}"
+            "vpIndicator"           : "com.github.JakeWharton:ViewPagerIndicator:${version["vpIndicatorVersion"]}",
+            "jxl"                   : "net.sourceforge.jexcelapi:jxl:${version["jxlVersion"]}"
     ]
 }

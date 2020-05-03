@@ -17,7 +17,6 @@ import example.com.furnitureproject.db.DbHelper
 import example.com.furnitureproject.db.bean.DetailTypeBean
 import example.com.furnitureproject.eventbus.bean.EventAddDetailType
 import example.com.furnitureproject.fragment.BaseFragmentKotlin
-import example.com.furnitureproject.utils.KeyboardUtil
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.android.schedulers.AndroidSchedulers

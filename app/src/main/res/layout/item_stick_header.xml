@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:textSize="11sp"
+        android:textSize="@dimen/list_sub_title"
         android:textColor="@color/colorTextSticky"
         android:text="817"/>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/tv_sticky_day"
-        android:textSize="11sp"
+        android:textSize="@dimen/list_sub_title"
         android:textColor="@color/colorTextSticky"
         android:text="星期几"/>
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
-        android:textSize="11sp"
+        android:textSize="@dimen/list_sub_title"
         android:textColor="@color/colorTextSticky"
         android:text="收入"/>
 
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/tv_sticky_income"
         android:layout_marginRight="10dp"
-        android:textSize="11sp"
+        android:textSize="@dimen/list_sub_title"
         android:textColor="@color/colorTextSticky"
         android:text="支出"/>
 

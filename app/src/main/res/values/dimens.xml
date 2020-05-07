@@ -12,6 +12,10 @@
     <dimen name="tv_title">20sp</dimen>
     <dimen name="tv_des">18sp</dimen>
 
+    <dimen name="list_title">18sp</dimen>
+    <dimen name="list_sub_title">16sp</dimen>
+    <dimen name="list_price">18sp</dimen>
+
     <dimen name="pie_chart_text1_size">42sp</dimen>
     <dimen name="pie_chart_text2_size">16dp</dimen>
 

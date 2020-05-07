@@ -86,7 +86,7 @@
     <!--黑色文字-->
     <color name="colorTextBlack">#3f2c51</color>
     <!--黑色浅色文字-->
-    <color name="colorTextBlackLight">#7e7d86</color>
+    <color name="colorTextBlackLight">#696873</color>
 
     <!--顶部悬浮背景-->
     <color name="colorBgSticky">#fbf9ff</color>

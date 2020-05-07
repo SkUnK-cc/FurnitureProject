@@ -9,8 +9,6 @@ import java.util.*
 
 object DbHelper {
     private val DB_NAME = "furniture.db"
-//    private var accountManager: DbManager<AccountBean,Long>? = null
-//    private var detailTypeBean: DbManager<DetailTypeBean,Long>? = null
     private var accountManager: DbAccountManager? = null
     private var detailTypeManager: DbDetailTypeManager? = null
     @SuppressLint("StaticFieldLeak")
@@ -25,15 +23,6 @@ object DbHelper {
     }
 
     fun getAccountManager(): DbAccountManager{
-//        if(accountManager==null){
-//            accountManager = object: DbManager<AccountBean,Long>(){
-//                override fun getAbstractDao(): AbstractDao<AccountBean, Long> {
-//                    if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
-//                    return mDaoSession!!.accountBeanDao
-//                }
-//            }
-//        }
-//        return accountManager!!
         if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
         if(accountManager==null){
             accountManager = DbAccountManager
@@ -43,15 +32,6 @@ object DbHelper {
     }
 
     fun getDetailTypeManager(): DbDetailTypeManager{
-//        if(detailTypeBean==null){
-//            detailTypeBean = object: DbManager<DetailTypeBean ,Long>(){
-//                override fun getAbstractDao(): AbstractDao<DetailTypeBean, Long> {
-//                    if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
-//                    return mDaoSession!!.detailTypeBeanDao
-//                }
-//            }
-//        }
-//        return detailTypeBean!!
         if(mDaoSession==null)throw Exception("DaoSession should call findView before!")
         if(detailTypeManager==null){
             detailTypeManager = DbDetailTypeManager
@@ -74,19 +54,6 @@ object DbHelper {
             mHelper = null
         }
     }
-
-
-
-//    fun getAccountList(accountType: String, detailType: String, startTime: Date, endTime: Date): List<AccountBean> {
-//
-//        val builder = getAccountManager().queryBuilder()
-//                .where(AccountBeanDao.Properties.Time.between(startTime, endTime),
-//                        AccountBeanDao.Properties.Type.eq(accountType))
-//        if (detailType != Extra.DETAIL_TYPE_DEFAULT)
-//            builder.where(AccountBeanDao.Properties.Name.eq(detailType))
-//        builder.orderAsc(AccountBeanDao.Properties.Time)
-//        return builder.list()
-//    }
 
     fun getMinDate(): Date? {
         val accountList = getAccountManager().queryBuilder()
@@ -127,10 +94,6 @@ object DbHelper {
         } else
             return null
 
-    }
-
-    fun insertTestData(){
-//        getDetailTypeManager().getAbstractDao().insert(DetailTypeBean())
     }
 }
 

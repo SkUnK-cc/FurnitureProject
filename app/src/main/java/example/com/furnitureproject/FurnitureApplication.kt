@@ -18,4 +18,9 @@ class FurnitureApplication: Application() {
         application = this
         DbHelper.init(this)
     }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        DbHelper.close()
+    }
 }

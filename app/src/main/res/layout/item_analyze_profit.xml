@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/colorTextBlack"
-        android:textSize="15sp"
+        android:textSize="@dimen/list_title"
         android:text="宠物"
         android:layout_toRightOf="@id/iv_analyze_color"/>
 
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textColor="@color/colorTextBlackLight"
-        android:textSize="12sp"
+        android:textSize="@dimen/list_sub_title"
         android:text="逗猫棒"
         android:layout_toRightOf="@id/iv_analyze_color"
         android:layout_below="@id/tv_analyze_name"/>
@@ -40,7 +40,7 @@
         android:layout_toRightOf="@id/tv_analyze_name"
         android:layout_marginLeft="10dp"
         android:layout_alignBottom="@id/tv_analyze_name"
-        android:textSize="12sp"
+        android:textSize="@dimen/list_sub_title"
         android:textColor="@color/analyzeCountText"/>
 
     <TextView
@@ -52,7 +52,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="14dp"
         android:textColor="@color/colorTextBlack"
-        android:textSize="15sp"
+        android:textSize="@dimen/list_price"
         android:text="29.00"/>
 
 </RelativeLayout>

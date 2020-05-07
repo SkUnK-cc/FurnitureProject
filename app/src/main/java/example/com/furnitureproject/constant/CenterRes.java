@@ -9,7 +9,7 @@ import example.com.furnitureproject.R;
  */
 public class CenterRes {
     public static String[] NAMES = {
-            "商品类型", "其他支出类型", "导出到xml", "常见问题", "好评鼓励", "关于我们"};
+            "商品类型", "其他支出类型", "导出到Excel", "常见问题", "好评鼓励", "关于我们"};
 
     public static int[] ICONS = {
             R.drawable.me_contract, R.drawable.me_order, R.drawable.me_order, R.drawable.me_problem, R.drawable.me_evaluate, R.drawable.me_about};

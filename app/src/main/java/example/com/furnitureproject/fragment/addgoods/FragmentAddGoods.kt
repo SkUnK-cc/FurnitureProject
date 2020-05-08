@@ -63,7 +63,7 @@ class FragmentAddGoods: BaseFragmentKotlin(), View.OnClickListener , GoodsAddAct
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_adwwwd_goods
+        return R.layout.fragment_add_goods
     }
 
     override fun onClick(v: View?) {

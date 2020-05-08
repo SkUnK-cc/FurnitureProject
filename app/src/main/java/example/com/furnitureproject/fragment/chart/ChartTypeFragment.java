@@ -18,6 +18,9 @@ import java.util.List;
 import example.com.furnitureproject.R;
 import example.com.furnitureproject.db.DbHelper;
 import example.com.furnitureproject.db.bean.AccountBean;
+import example.com.furnitureproject.eventbus.bean.EventAddOtherTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddSellTrans;
+import example.com.furnitureproject.eventbus.bean.EventAddStockTrans;
 import example.com.furnitureproject.eventbus.bean.EventChartTypeChange;
 import example.com.furnitureproject.fragment.BaseFragment;
 import example.com.furnitureproject.fragment.adapter.BaseFragmentPagerAdapter;
@@ -244,6 +247,26 @@ public class ChartTypeFragment extends BaseFragment {
         //TabLayoutIndicator.setIndicatorWithTextWidth(mTabDettail);
         //了解源码得知 线的宽度是根据 tabView的宽度来设置的
 
+    }
+
+    private void refresh() {
+        if(mFragmentList.isEmpty())
+            initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onSellAdd(EventAddSellTrans e){
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onStockAdd(EventAddStockTrans e){
+        refresh();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    void onOtherAdd(EventAddOtherTrans e){
+        refresh();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

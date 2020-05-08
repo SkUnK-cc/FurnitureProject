@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/iv_center"
-        android:layout_width="19dp"
-        android:layout_height="19dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="16dp"
         android:layout_centerVertical="true"
         android:src="@drawable/classify_baby"/>
@@ -18,7 +18,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/iv_center"
         android:layout_marginLeft="16dp"
-        android:textSize="15sp"
+        android:textSize="@dimen/tv_title"
         android:textColor="@color/colorPrimary"
         android:text="我的"/>
 

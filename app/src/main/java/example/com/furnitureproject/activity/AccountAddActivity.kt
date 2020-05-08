@@ -105,6 +105,7 @@ class AccountAddActivity : BaseActivity(), View.OnClickListener {
         viewpager.currentItem = index
 
         vp_indicator.setViewPager(viewpager)
+        vp_indicator.setCurrentItem(index)
     }
 
     override fun onClick(v: View?) {

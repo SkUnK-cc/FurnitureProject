@@ -19,7 +19,6 @@ import example.com.furnitureproject.rxjava.BaseObserver
 import example.com.furnitureproject.utils.ToastUtil
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_goods_add.*
-import kotlinx.android.synthetic.main.activity_goods_add.view.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
@@ -75,6 +74,7 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
         viewpager.adapter = fragmentAdapter
         viewpager.currentItem = getNameList().indexOf(selectType)
 
+
         viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
@@ -85,6 +85,7 @@ class GoodsAddActivity : AppCompatActivity(), View.OnClickListener {
         })
 
         vp_indicator.setViewPager(viewpager)
+        vp_indicator.setCurrentItem(getNameList().indexOf(selectType))
 
         ll_title_return.setOnClickListener(this)
         ll_title_contract.setOnClickListener(this)

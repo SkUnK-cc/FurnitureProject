@@ -5,6 +5,8 @@ import android.os.Environment;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import example.com.furnitureproject.db.bean.AccountBean;
@@ -33,7 +35,7 @@ public class DatabaseDump {
                 WritableWorkbook mWritableWorkbook;
                 // 输出Excel的路径
                 File file = new File(Environment.getExternalStorageDirectory(), fileName);
-                // 新建一个文件
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd日  HH:mm");
                 try {
                     if(file.exists()){
                         file.delete();
@@ -66,6 +68,8 @@ public class DatabaseDump {
                         mWritableSheet.addCell(primeCost);
                         Label note = new Label(7, row, item.getNote());
                         mWritableSheet.addCell(note);
+                        Label time = new Label(8, row, formatter.format(new Date(item.getTime())));
+                        mWritableSheet.addCell(time);
                     }
                     // 写入数据
                     mWritableWorkbook.write();
@@ -97,6 +101,8 @@ public class DatabaseDump {
         mWritableSheet.addCell(primeCost);
         Label note = new Label(7, 0, "备注");
         mWritableSheet.addCell(note);
+        Label time = new Label(8, 0, "时间");
+        mWritableSheet.addCell(time);
     }
 
 }

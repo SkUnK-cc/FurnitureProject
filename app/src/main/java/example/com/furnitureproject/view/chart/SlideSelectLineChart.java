@@ -172,10 +172,12 @@ public class SlideSelectLineChart extends AbsLeafChart {
             case MotionEvent.ACTION_DOWN:
                 downX = event.getX();
                 downY = event.getY();
-                float selectPositionX = line.getValues().get(mSelectedPosition).getOriginX();
-                if (downX > selectPositionX - LeafUtil.dp2px(mContext, 40f) &&
-                        downX < selectPositionX + LeafUtil.dp2px(mContext, 40f)) {
-                    mIsCanMove = true;
+                if(mSelectedPosition>=0 && mSelectedPosition<=line.getValues().size()-1) {
+                    float selectPositionX = line.getValues().get(mSelectedPosition).getOriginX();
+                    if (downX > selectPositionX - LeafUtil.dp2px(mContext, 40f) &&
+                            downX < selectPositionX + LeafUtil.dp2px(mContext, 40f)) {
+                        mIsCanMove = true;
+                    }
                 }
                 setCanSelected(true);
                 if (null != mOnChartSelectedListener) {

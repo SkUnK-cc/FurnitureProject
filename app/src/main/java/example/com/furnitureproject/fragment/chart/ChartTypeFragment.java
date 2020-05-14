@@ -141,6 +141,9 @@ public class ChartTypeFragment extends BaseFragment {
             mVpChart.setVisibility(View.GONE);
             mLinEmpty.setVisibility(View.VISIBLE);
             return;
+        }else {
+            mVpChart.setVisibility(View.VISIBLE);
+            mLinEmpty.setVisibility(View.GONE);
         }
 
         List<AccountBean> accountList = DbHelper.INSTANCE.getAccountManager().getAccountList(mAccountType, minDate, maxDate);
@@ -156,7 +159,7 @@ public class ChartTypeFragment extends BaseFragment {
                         mTitleList.add(i + "周");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_WEEK, i, maxValue));
                     }
-                    //setPagerData(mFragmentList, mTitleList);
+                    initViewPager(mFragmentList, mTitleList);
                 }
 
                 break;
@@ -168,7 +171,7 @@ public class ChartTypeFragment extends BaseFragment {
                         mTitleList.add((i + 1) + "月");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_MONTH, i, maxValue));
                     }
-                    //setPagerData(mFragmentList, mTitleList);
+                    initViewPager(mFragmentList, mTitleList);
                 }
 
                 break;
@@ -180,7 +183,7 @@ public class ChartTypeFragment extends BaseFragment {
                         mTitleList.add((i) + "年");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_YEAR, i, maxValue));
                     }
-                    //setPagerData(mFragmentList, mTitleList);
+                    initViewPager(mFragmentList, mTitleList);
                 }
                 break;
             default:
@@ -250,8 +253,10 @@ public class ChartTypeFragment extends BaseFragment {
     }
 
     private void refresh() {
-        if(mFragmentList.isEmpty())
+        //if(mFragmentList.isEmpty()) {
             initData();
+//            mVpChart.getAdapter().notifyDataSetChanged();
+        //}
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

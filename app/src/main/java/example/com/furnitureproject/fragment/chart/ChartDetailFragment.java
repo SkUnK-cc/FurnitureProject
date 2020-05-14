@@ -69,7 +69,7 @@ public class ChartDetailFragment extends BaseFragment {
     private float mMaxValue = 0f; //list最大值
     private ArrayList<Float> mFloatList;
     private String mAccountType = AccountBean.TYPE_INCOME_SELL;
-    private int mSelectPosition = 3; //chart当前选中
+    private int mSelectPosition = -1; //chart当前选中
     private List<ChartDataBean> mRecycleList = new ArrayList<>(); //recycviews数据源
     private ChartDetailCountAdapter mAdapter;
     private String mDetailType = AccountBean.NAME_ALL;

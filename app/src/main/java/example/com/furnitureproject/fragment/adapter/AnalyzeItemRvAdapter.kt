@@ -14,6 +14,6 @@ class AnalyzeItemRvAdapter(layoutId: Int): BaseQuickAdapter<AnalyzeFragmentVM.Pi
         holder?.getView<ImageView>(R.id.iv_analyze_color)?.setBackgroundColor(item?.color!!)
         holder?.setText(R.id.tv_analyze_describe,item?.note)
         holder?.setText(R.id.tv_analyze_money,item?.money.toString())
-        holder?.setText(R.id.tv_analyze_count,"出售数量"+item?.count)
+        holder?.setText(R.id.tv_analyze_count,"数量"+item?.count)
     }
 }

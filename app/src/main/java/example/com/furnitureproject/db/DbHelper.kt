@@ -1,6 +1,7 @@
 package example.com.furnitureproject.db
 import android.annotation.SuppressLint
 import android.content.Context
+import example.com.furnitureproject.db.bean.DetailTypeBean
 import example.com.furnitureproject.db.gen.AccountBeanDao
 import example.com.furnitureproject.db.gen.DaoMaster
 import example.com.furnitureproject.db.gen.DaoSession
@@ -93,7 +94,38 @@ object DbHelper {
                 null
         } else
             return null
+    }
 
+    fun initDefaultData(){
+        val item1 = DetailTypeBean()
+        item1.name = "广告费"
+        item1.type = DetailTypeBean.TYPE_PAY_OTHER
+        item1.time = Date(System.currentTimeMillis())
+        getDetailTypeManager().insert(item1)
+
+        val item2 = DetailTypeBean()
+        item2.name = "运营费"
+        item2.type = DetailTypeBean.TYPE_PAY_OTHER
+        item2.time = Date(System.currentTimeMillis())
+        getDetailTypeManager().insert(item2)
+
+        val item3 = DetailTypeBean()
+        item3.name = "人工费"
+        item3.type = DetailTypeBean.TYPE_PAY_OTHER
+        item3.time = Date(System.currentTimeMillis())
+        getDetailTypeManager().insert(item3)
+
+        val item4 = DetailTypeBean()
+        item4.name = "办公用品"
+        item4.type = DetailTypeBean.TYPE_PAY_OTHER
+        item4.time = Date(System.currentTimeMillis())
+        getDetailTypeManager().insert(item4)
+
+        val item5 = DetailTypeBean()
+        item5.name = "员工工资"
+        item5.type = DetailTypeBean.TYPE_PAY_OTHER
+        item5.time = Date(System.currentTimeMillis())
+        getDetailTypeManager().insert(item5)
     }
 }
 

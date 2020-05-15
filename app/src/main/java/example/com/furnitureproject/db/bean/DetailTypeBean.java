@@ -33,7 +33,7 @@ public class DetailTypeBean implements IPickerViewData {
     // 库存
     private int stockCount;
 
-    private String note;
+    private String note = "";
 
     public DetailTypeBean(){
 
